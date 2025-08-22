@@ -1,0 +1,5 @@
+{{
+  "name": "Evaluación de Liderazgo",
+  "description": "Una aplicación para capturar datos de personal y realizar evaluaciones de liderazgo situacional y de estilo de personalidad, con la capacidad de guardar y descargar los resultados.",
+  "requestFramePermissions": []
+}
