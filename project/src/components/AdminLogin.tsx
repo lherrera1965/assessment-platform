@@ -22,8 +22,26 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ isOpen, onClose, onLogin
     setLoading(true);
     setError('');
 
+    // Acceso directo para desarrollo/demo
+    if (email === 'admin@demo.com' && password === 'admin123') {
+      onLogin();
+      setEmail('');
+      setPassword('');
+      onClose();
+      setLoading(false);
+      return;
+    }
+
     if (!supabase) {
-      setError('Supabase no está configurado');
+      // Si no hay Supabase, permitir acceso con credenciales demo
+      if (email === 'admin@demo.com' && password === 'admin123') {
+        onLogin();
+        setEmail('');
+        setPassword('');
+        onClose();
+      } else {
+        setError('Credenciales incorrectas');
+      }
       setLoading(false);
       return;
     }
@@ -139,3 +157,5 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ isOpen, onClose, onLogin
     </Modal>
   );
 };
+
+export default AdminLogin;

@@ -314,6 +314,42 @@ export const deleteAssessment = async (assessmentId: string) => {
   }
 };
 
+export const saveTimingData = async (assessmentId: string, timingData: {
+  startTime: string;
+  endTime: string;
+  totalDuration: number;
+  sectionTimes: {[key: string]: number};
+}) => {
+  if (!supabase) {
+    console.warn('Supabase not configured. Timing data not saved.');
+    return;
+  }
+
+  try {
+    const { error } = await supabase
+      .from('assessments')
+      .update({
+        user_data: {
+          ...((await supabase.from('assessments').select('user_data').eq('id', assessmentId).single()).data?.user_data || {}),
+          startTime: timingData.startTime,
+          endTime: timingData.endTime,
+          totalDuration: timingData.totalDuration,
+          sectionTimes: timingData.sectionTimes
+        },
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', assessmentId);
+
+    if (error) {
+      console.error('Error saving timing data:', error);
+      throw new Error('Failed to save timing data');
+    }
+  } catch (error) {
+    console.error('Error in saveTimingData:', error);
+    throw error;
+  }
+};
+
 export const getAllAssessments = async () => {
   if (!supabase) {
     console.warn('Supabase not configured. Cannot fetch assessments.');

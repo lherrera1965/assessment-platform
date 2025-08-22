@@ -1,1562 +1,1412 @@
-import { Question, EthicalDilemma } from './types';
+import { Question, EthicalDilemma, AnswerSet } from './types';
+
+// ===== INTRODUCCIONES DE CADA SECCIÓN =====
+
+export const SITUATIONAL_LEADERSHIP_INTRO = `
+<h2 class="text-2xl font-bold text-slate-800 mb-4">Sección 1: Liderazgo Situacional</h2>
+
+<p class="text-slate-600 mb-4">
+Bienvenido a la sección de Liderazgo Situacional. Este módulo evalúa una de las competencias más críticas del liderazgo moderno: <strong>la agilidad adaptativa</strong>.
+</p>
+
+<p class="text-slate-600 mb-4">
+El modelo de Liderazgo Situacional®, desarrollado por Paul Hersey y Ken Blanchard, se basa en la premisa de que no existe un único estilo de liderazgo efectivo. La efectividad de un líder reside en su capacidad para diagnosticar el nivel de desarrollo de un colaborador (su competencia y compromiso) frente a una tarea específica y aplicar el estilo de liderazgo adecuado.
+</p>
+
+<p class="text-slate-600 mb-4">En esta prueba, exploraremos su dominio de los cuatro estilos principales:</p>
+
+<ul class="list-disc list-inside text-slate-600 mb-4 space-y-2">
+  <li><strong>S1 - Dirigir:</strong> Proporcionar instrucciones claras y supervisión estrecha a quienes son nuevos en una tarea pero están entusiasmados.</li>
+  <li><strong>S2 - Entrenar:</strong> Dirigir y apoyar a quienes han desarrollado algunas habilidades pero han perdido motivación o confianza.</li>
+  <li><strong>S3 - Apoyar:</strong> Fomentar la colaboración y la toma de decisiones con personas competentes que pueden dudar de su propia capacidad.</li>
+  <li><strong>S4 - Delegar:</strong> Otorgar autonomía y responsabilidad a los colaboradores que son expertos y están altamente comprometidos.</li>
+</ul>
+
+<p class="text-slate-600 mb-6">
+Sus respuestas a los siguientes escenarios nos permitirán comprender su versatilidad para aplicar el estilo correcto en el momento oportuno.
+</p>
+
+<div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+  <p class="text-blue-800 font-medium italic">
+    "Un liderazgo excepcional no trata de tener un solo estilo, sino de tener el estilo correcto para cada momento. Demuestre su agilidad como líder."
+  </p>
+</div>
+`;
+
+export const HOGAN_STYLE_INTRO = `
+<h2 class="text-2xl font-bold text-slate-800 mb-4">Sección 2: Perfil de Competencias y Riesgos (Hogan)</h2>
+
+<p class="text-slate-600 mb-4">
+Esta sección está diseñada para proporcionar una visión profunda de su personalidad en el contexto laboral, basada en décadas de investigación y en la Teoría Socioanalítica. El objetivo es fomentar una <strong>autoconciencia estratégica</strong> sobre cómo es probable que sea percibido por los demás.
+</p>
+
+<p class="text-slate-600 mb-4">Analizaremos dos aspectos fundamentales de su perfil:</p>
+
+<ul class="list-disc list-inside text-slate-600 mb-4 space-y-2">
+  <li><strong>El Lado Brillante (Su Reputación):</strong> Explora sus características de personalidad del día a día, aquellas que definen su estilo de trabajo y su reputación como colaborador y líder.</li>
+  <li><strong>El Lado Oscuro (Sus Riesgos):</strong> Identifica tendencias de comportamiento que, aunque pueden ser fortalezas en moderación, corren el riesgo de convertirse en "descarriladores" de carrera bajo presión, estrés o complacencia.</li>
+</ul>
+
+<p class="text-slate-600 mb-6">
+No hay respuestas correctas o incorrectas. La precisión de este perfil dependerá de su honestidad.
+</p>
+
+<div class="bg-green-50 border-l-4 border-green-500 p-4 mb-6">
+  <p class="text-green-800 font-medium italic">
+    "La autoconciencia estratégica es la herramienta más poderosa de un ejecutivo. Este es el momento de afinar la suya."
+  </p>
+</div>
+`;
+
+export const DISC_INTRO = `
+<h2 class="text-2xl font-bold text-slate-800 mb-4">Sección 3: Perfil de Comportamiento Profesional (DISC)</h2>
+
+<p class="text-slate-600 mb-4">
+El propósito de este módulo es identificar sus preferencias conductuales y su estilo de comunicación natural a través del modelo DISC, una de las herramientas de evaluación más utilizadas en el mundo corporativo.
+</p>
+
+<p class="text-slate-600 mb-4">El modelo mapea las tendencias de comportamiento en cuatro dimensiones clave:</p>
+
+<ul class="list-disc list-inside text-slate-600 mb-4 space-y-2">
+  <li><strong>Dominancia (D):</strong> Cómo responde ante problemas y desafíos.</li>
+  <li><strong>Influencia (I):</strong> Cómo interactúa con los demás e influye en ellos.</li>
+  <li><strong>Estabilidad (S):</strong> Cómo responde al ritmo del entorno y a los cambios.</li>
+  <li><strong>Conformidad (C):</strong> Cómo responde a las reglas y procedimientos.</li>
+</ul>
+
+<p class="text-slate-600 mb-6">
+Comprender su perfil le permitirá capitalizar sus fortalezas interpersonales y adaptar su comunicación para colaborar de manera más efectiva con otros estilos.
+</p>
+
+<div class="bg-purple-50 border-l-4 border-purple-500 p-4 mb-6">
+  <p class="text-purple-800 font-medium italic">
+    "Conocer su estilo operativo natural es el primer paso para potenciar su influencia y construir relaciones laborales más sólidas."
+  </p>
+</div>
+`;
+
+export const COGNITIVE_ABILITY_INTRO = `
+<h2 class="text-2xl font-bold text-slate-800 mb-4">Sección 4: Evaluación de Aptitudes Cognitivas (IQ)</h2>
+
+<p class="text-slate-600 mb-4">
+Esta sección evalúa su agilidad mental y su capacidad de aprendizaje. En el entorno de negocios actual, la habilidad para procesar información compleja, identificar patrones y resolver problemas novedosos es un predictor clave del éxito.
+</p>
+
+<p class="text-slate-600 mb-4">
+Este módulo no mide su conocimiento acumulado, sino su "inteligencia fluida". Se le presentarán ejercicios que desafiarán diferentes facetas de su intelecto, incluyendo:
+</p>
+
+<ul class="list-disc list-inside text-slate-600 mb-4 space-y-2">
+  <li><strong>Razonamiento Lógico-Abstracto:</strong> Su capacidad para ver conexiones y patrones.</li>
+  <li><strong>Agilidad Numérica:</strong> Su habilidad para interpretar datos y realizar cálculos.</li>
+  <li><strong>Comprensión Verbal:</strong> Su destreza para entender conceptos complejos y argumentos.</li>
+</ul>
+
+<div class="bg-orange-50 border-l-4 border-orange-500 p-4 mb-6">
+  <p class="text-orange-800 font-medium italic">
+    "Aborde cada reto como una oportunidad para demostrar su capacidad de análisis y pensamiento estratégico."
+  </p>
+</div>
+`;
+
+export const ETHICAL_DILEMMAS_INTRO = `
+<h2 class="text-2xl font-bold text-slate-800 mb-4">Sección 5: Diagnóstico de Juicio Ético y Profesional</h2>
+
+<p class="text-slate-600 mb-4">
+La integridad es el pilar de un liderazgo sostenible. Este último módulo evalúa su juicio profesional al enfrentarse a "zonas grises": situaciones complejas donde las reglas no son claras y los valores entran en conflicto.
+</p>
+
+<p class="text-slate-600 mb-4">
+Más que buscar una única respuesta "correcta", esta sección busca entender su proceso de razonamiento ético. Analizaremos la consistencia de su marco de valores y su habilidad para sopesar principios como la transparencia, la responsabilidad, la lealtad y la equidad.
+</p>
+
+<p class="text-slate-600 mb-6">
+Sus respuestas nos ayudarán a comprender la solidez de su carácter y su fiabilidad como custodio de la cultura y los valores de la organización.
+</p>
+
+<div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+  <p class="text-red-800 font-medium italic">
+    "La verdadera medida de un líder se revela en las decisiones que toma cuando nadie está mirando. Demuestre la solidez de su juicio."
+  </p>
+</div>
+`;
+
+// ===== PREGUNTAS DE LIDERAZGO SITUACIONAL =====
 
 export const SITUATIONAL_LEADERSHIP_QUESTIONS: Question[] = [
   {
-    id: 'sit_1',
-    text: 'Un miembro de su equipo está luchando con una tarea nueva y compleja. ¿Cuál sería su enfoque?',
+    id: 'sit1',
+    text: 'Un nuevo miembro del equipo, muy entusiasta pero sin experiencia, se une a tu proyecto. ¿Qué haces?',
     options: [
-      { value: 'directing', label: 'Dar instrucciones específicas y supervisar de cerca' },
-      { value: 'coaching', label: 'Explicar las decisiones y solicitar sugerencias' },
-      { value: 'supporting', label: 'Facilitar y apoyar los esfuerzos del empleado' },
-      { value: 'delegating', label: 'Delegar la responsabilidad de las decisiones' }
+      { value: 'entrenar', label: 'Le explico las tareas paso a paso y le doy retroalimentación constante sobre su progreso.' },
+      { value: 'dirigir', label: 'Le doy instrucciones específicas y superviso de cerca su trabajo inicial.' },
+      { value: 'delegar', label: 'Le asigno tareas y confío en que aprenderá sobre la marcha.' },
+      { value: 'apoyar', label: 'Le pregunto qué necesita y facilito que el equipo lo ayude.' }
     ]
   },
   {
-    id: 'sit_2',
-    text: 'Su equipo tiene experiencia pero parece desmotivado con el proyecto actual. ¿Qué haría?',
+    id: 'sit2',
+    text: 'Un colaborador experimentado normalmente es muy autónomo, pero parece inseguro sobre cómo abordar una nueva tarea compleja. ¿Cómo lo manejas?',
     options: [
-      { value: 'supporting', label: 'Escuchar y apoyar, facilitando la resolución de problemas' },
-      { value: 'coaching', label: 'Proporcionar dirección y apoyo emocional' },
-      { value: 'directing', label: 'Establecer objetivos claros y dar instrucciones específicas' },
-      { value: 'delegating', label: 'Permitir que el equipo tome sus propias decisiones' }
+      { value: 'dirigir', label: 'Le doy instrucciones detalladas sobre cómo proceder.' },
+      { value: 'apoyar', label: 'Escucho sus preocupaciones y lo ayudo a ganar confianza en su enfoque.' },
+      { value: 'delegar', label: 'Le recuerdo su experiencia pasada y le doy total autonomía.' },
+      { value: 'entrenar', label: 'Le proporciono orientación y verifico su progreso regularmente.' }
     ]
   },
   {
-    id: 'sit_3',
-    text: 'Un empleado competente y motivado quiere asumir más responsabilidades. Su respuesta sería:',
+    id: 'sit3',
+    text: 'Tu equipo tiene las habilidades para resolver un problema, pero su motivación ha caído y no logran ponerse de acuerdo. ¿Cuál es tu enfoque?',
     options: [
-      { value: 'delegating', label: 'Asignar la tarea y permitir autonomía completa' },
-      { value: 'supporting', label: 'Ofrecer apoyo cuando sea necesario' },
-      { value: 'coaching', label: 'Proporcionar orientación y retroalimentación regular' },
-      { value: 'directing', label: 'Dar instrucciones detalladas sobre cómo proceder' }
+      { value: 'dirigir', label: 'Tomo el control y asigno tareas específicas a cada miembro.' },
+      { value: 'delegar', label: 'Les doy la responsabilidad completa de encontrar la solución.' },
+      { value: 'apoyar', label: 'Facilito una sesión de lluvia de ideas y los ayudo a llegar a un consenso.' },
+      { value: 'entrenar', label: 'Les explico diferentes enfoques y superviso la implementación.' }
     ]
   },
   {
-    id: 'sit_4',
-    text: 'Un nuevo empleado muestra entusiasmo pero carece de las habilidades necesarias. ¿Cómo lo manejaría?',
+    id: 'sit4',
+    text: 'Un miembro clave del equipo es altamente competente y siempre entrega resultados excepcionales sin necesidad de supervisión. Se le asigna un proyecto crítico. ¿Qué acción tomas?',
     options: [
-      { value: 'coaching', label: 'Enseñar habilidades mientras mantiene la motivación' },
-      { value: 'directing', label: 'Proporcionar instrucciones claras y supervisión constante' },
-      { value: 'supporting', label: 'Ofrecer aliento y apoyo emocional' },
-      { value: 'delegating', label: 'Asignar tareas y confiar en su capacidad de aprender' }
+      { value: 'entrenar', label: 'Le doy orientación sobre los aspectos críticos y verifico hitos importantes.' },
+      { value: 'apoyar', label: 'Me mantengo disponible para consultas pero no interfiero.' },
+      { value: 'delegar', label: 'Le doy total autonomía y solo pido actualizaciones cuando las solicite.' },
+      { value: 'dirigir', label: 'Establezco checkpoints frecuentes dada la criticidad del proyecto.' }
     ]
   },
   {
-    id: 'sit_5',
-    text: 'Durante una crisis, su equipo experimentado parece paralizado. ¿Cuál sería su enfoque inmediato?',
+    id: 'sit5',
+    text: 'Un colaborador ha estado trabajando en una tarea por un tiempo y ha adquirido cierta habilidad, pero parece frustrado y su compromiso ha disminuido. ¿Cómo intervienes?',
     options: [
-      { value: 'directing', label: 'Tomar control directo y dar órdenes específicas' },
-      { value: 'coaching', label: 'Explicar la situación y buscar input del equipo' },
-      { value: 'supporting', label: 'Facilitar la discusión del equipo sobre soluciones' },
-      { value: 'delegating', label: 'Confiar en que el equipo encuentre la solución' }
+      { value: 'dirigir', label: 'Le doy instrucciones más claras y superviso más de cerca.' },
+      { value: 'apoyar', label: 'Escucho sus frustraciones y lo ayudo a recuperar la motivación.' },
+      { value: 'delegar', label: 'Le doy más autonomía para que encuentre su propio camino.' },
+      { value: 'entrenar', label: 'Le proporciono coaching adicional y celebro sus pequeños logros.' }
     ]
   },
   {
-    id: 'sit_6',
-    text: 'Un empleado con habilidades moderadas está perdiendo confianza después de algunos errores. ¿Qué haría?',
+    id: 'sit6',
+    text: 'Le pides a un miembro del equipo que asuma una nueva responsabilidad; tiene toda la capacidad técnica, pero duda de sí mismo. ¿Qué haces?',
     options: [
-      { value: 'coaching', label: 'Proporcionar orientación específica y apoyo emocional' },
-      { value: 'supporting', label: 'Enfocarse en reconstruir la confianza y motivación' },
-      { value: 'directing', label: 'Volver a entrenar con instrucciones paso a paso' },
-      { value: 'delegating', label: 'Darle espacio para que recupere la confianza solo' }
+      { value: 'entrenar', label: 'Le doy orientación inicial y feedback positivo constante.' },
+      { value: 'dirigir', label: 'Le proporciono instrucciones detalladas para asegurar el éxito.' },
+      { value: 'delegar', label: 'Confío en su capacidad y le doy total libertad de acción.' },
+      { value: 'apoyar', label: 'Lo escucho, valido sus capacidades y facilito su toma de decisiones.' }
     ]
   },
   {
-    id: 'sit_7',
-    text: 'Su equipo tiene las habilidades pero está dividido sobre la mejor aproximación al proyecto. Su respuesta:',
+    id: 'sit7',
+    text: 'El equipo se enfrenta a una crisis inmediata que requiere una solución rápida y precisa, y no hay tiempo para debatir. ¿Cómo actúas?',
     options: [
-      { value: 'supporting', label: 'Facilitar la discusión para llegar a consenso' },
-      { value: 'coaching', label: 'Guiar la discusión hacia la mejor solución' },
-      { value: 'directing', label: 'Decidir la aproximación y comunicarla claramente' },
-      { value: 'delegating', label: 'Permitir que resuelvan las diferencias internamente' }
+      { value: 'apoyar', label: 'Facilito una rápida sesión de brainstorming para encontrar la mejor solución.' },
+      { value: 'entrenar', label: 'Explico rápidamente el plan y asigno roles específicos.' },
+      { value: 'dirigir', label: 'Tomo el control inmediato y doy órdenes claras y directas.' },
+      { value: 'delegar', label: 'Confío en la experiencia del equipo y los dejo manejar la crisis.' }
     ]
   },
   {
-    id: 'sit_8',
-    text: 'Un empleado experimentado comienza a mostrar signos de aburrimiento y desinterés. ¿Cómo respondería?',
+    id: 'sit8',
+    text: 'Un colaborador junior ha completado con éxito varias tareas pequeñas y ahora quiere asumir un proyecto más grande por su cuenta. ¿Cómo respondes?',
     options: [
-      { value: 'delegating', label: 'Ofrecer nuevos desafíos y mayor autonomía' },
-      { value: 'supporting', label: 'Discutir sus preocupaciones y ofrecer apoyo' },
-      { value: 'coaching', label: 'Trabajar juntos para encontrar nuevas motivaciones' },
-      { value: 'directing', label: 'Establecer nuevas metas y expectativas claras' }
+      { value: 'delegar', label: 'Le doy el proyecto completo y confío en su capacidad.' },
+      { value: 'dirigir', label: 'Le asigno el proyecto pero con supervisión constante.' },
+      { value: 'apoyar', label: 'Lo escucho y lo ayudo a planificar su enfoque.' },
+      { value: 'entrenar', label: 'Le doy el proyecto con coaching regular y checkpoints claros.' }
     ]
   },
   {
-    id: 'sit_9',
-    text: 'Al implementar un nuevo proceso, algunos miembros del equipo se resisten al cambio. Su enfoque sería:',
+    id: 'sit9',
+    text: 'El equipo está desarrollando un nuevo proceso. Todos son expertos en sus áreas, pero necesitan colaborar para que el resultado sea exitoso. ¿Cuál es tu rol?',
     options: [
-      { value: 'coaching', label: 'Explicar los beneficios y abordar las preocupaciones' },
-      { value: 'directing', label: 'Implementar el cambio con instrucciones claras' },
-      { value: 'supporting', label: 'Facilitar discusiones sobre cómo adaptarse' },
-      { value: 'delegating', label: 'Permitir que el equipo adapte el proceso a su manera' }
+      { value: 'dirigir', label: 'Coordino todas las actividades y tomo las decisiones finales.' },
+      { value: 'entrenar', label: 'Proporciono estructura y facilito el intercambio de conocimientos.' },
+      { value: 'delegar', label: 'Les doy total autonomía para que trabajen juntos.' },
+      { value: 'apoyar', label: 'Facilito la colaboración y ayudo a resolver conflictos de enfoque.' }
     ]
   },
   {
-    id: 'sit_10',
-    text: 'Un miembro del equipo altamente competente solicita retroalimentación constante. ¿Qué haría?',
+    id: 'sit10',
+    text: 'Un miembro del equipo no está cumpliendo con los plazos. Tiene las habilidades, pero parece distraído y desmotivado. ¿Qué haces?',
     options: [
-      { value: 'supporting', label: 'Proporcionar la retroalimentación solicitada y apoyo' },
-      { value: 'coaching', label: 'Ayudarle a desarrollar auto-evaluación' },
-      { value: 'delegating', label: 'Gradualmente reducir la frecuencia de retroalimentación' },
-      { value: 'directing', label: 'Establecer horarios específicos para retroalimentación' }
+      { value: 'dirigir', label: 'Establezco plazos más estrictos y superviso diariamente.' },
+      { value: 'delegar', label: 'Le recuerdo la importancia del proyecto y confío en que se autorregule.' },
+      { value: 'entrenar', label: 'Trabajo con él para identificar obstáculos y crear un plan de acción.' },
+      { value: 'apoyar', label: 'Tengo una conversación para entender qué está afectando su motivación.' }
     ]
   },
   {
-    id: 'sit_11',
-    text: 'Su equipo está trabajando en un proyecto familiar pero con un plazo muy ajustado. Su estrategia sería:',
+    id: 'sit11',
+    text: 'Un nuevo becario se muestra abrumado por la cantidad de información y no sabe por dónde empezar. ¿Cuál es tu primera acción?',
     options: [
-      { value: 'supporting', label: 'Ofrecer recursos adicionales y eliminar obstáculos' },
-      { value: 'delegating', label: 'Confiar en su experiencia y permitir autonomía total' },
-      { value: 'coaching', label: 'Revisar el progreso regularmente y ofrecer orientación' },
-      { value: 'directing', label: 'Establecer hitos claros y supervisar de cerca' }
+      { value: 'apoyar', label: 'Le pregunto qué parte le resulta más confusa y lo tranquilizo.' },
+      { value: 'entrenar', label: 'Le explico las prioridades y verifico su comprensión paso a paso.' },
+      { value: 'delegar', label: 'Le doy recursos y confío en que encontrará su camino.' },
+      { value: 'dirigir', label: 'Le doy una lista clara de tareas prioritarias y plazos específicos.' }
     ]
   },
   {
-    id: 'sit_12',
-    text: 'Un empleado nuevo muestra habilidades técnicas sólidas pero duda de sus decisiones. ¿Cómo lo apoyaría?',
+    id: 'sit12',
+    text: 'Un colaborador senior te presenta una idea innovadora que él está totalmente capacitado para liderar. ¿Qué le dices?',
     options: [
-      { value: 'coaching', label: 'Guiar su proceso de toma de decisiones' },
-      { value: 'supporting', label: 'Reforzar su confianza y validar sus decisiones' },
-      { value: 'directing', label: 'Proporcionar criterios claros para la toma de decisiones' },
-      { value: 'delegating', label: 'Permitir que tome decisiones y aprenda de los resultados' }
+      { value: 'entrenar', label: 'Le doy feedback sobre la idea y lo guío en la planificación.' },
+      { value: 'dirigir', label: 'Le doy instrucciones específicas sobre cómo implementarla.' },
+      { value: 'apoyar', label: 'Escucho sus ideas y lo ayudo a refinar su propuesta.' },
+      { value: 'delegar', label: 'Le doy luz verde y los recursos necesarios para ejecutarla.' }
     ]
   },
   {
-    id: 'sit_13',
-    text: 'Durante una reorganización, su equipo experimentado está ansioso sobre los cambios. Su enfoque:',
+    id: 'sit13',
+    text: 'El equipo ha llegado a un punto muerto en una decisión importante. Tienen toda la información, pero no logran un consenso. ¿Cómo facilitas el proceso?',
     options: [
-      { value: 'supporting', label: 'Escuchar sus preocupaciones y ofrecer tranquilidad' },
-      { value: 'coaching', label: 'Explicar los cambios y trabajar juntos en la adaptación' },
-      { value: 'directing', label: 'Comunicar claramente las nuevas expectativas y roles' },
-      { value: 'delegating', label: 'Confiar en que se adapten usando su experiencia' }
+      { value: 'dirigir', label: 'Analizo la información y tomo la decisión final.' },
+      { value: 'delegar', label: 'Les doy más tiempo para que lleguen a un acuerdo por sí mismos.' },
+      { value: 'apoyar', label: 'Facilito una discusión estructurada para ayudarlos a decidir.' },
+      { value: 'entrenar', label: 'Les enseño un framework de toma de decisiones y los guío en su aplicación.' }
     ]
   },
   {
-    id: 'sit_14',
-    text: 'Un miembro del equipo competente pero perfeccionista está retrasando las entregas. ¿Qué haría?',
+    id: 'sit14',
+    text: 'Un miembro del equipo ha estado en el equipo durante años y es un experto, pero de repente su rendimiento ha bajado en una tarea que domina. ¿Cómo lo abordas?',
     options: [
-      { value: 'coaching', label: 'Trabajar juntos para equilibrar calidad y tiempos' },
-      { value: 'directing', label: 'Establecer límites de tiempo claros y no negociables' },
-      { value: 'supporting', label: 'Ayudarle a manejar la ansiedad por la perfección' },
-      { value: 'delegating', label: 'Confiar en que encuentre el equilibrio adecuado' }
+      { value: 'delegar', label: 'Asumo que es temporal y le doy espacio para autorregularse.' },
+      { value: 'apoyar', label: 'Tengo una conversación privada para entender qué está pasando.' },
+      { value: 'dirigir', label: 'Establezco expectativas claras y superviso más de cerca.' },
+      { value: 'entrenar', label: 'Reviso el proceso con él y proporciono coaching adicional.' }
     ]
   },
   {
-    id: 'sit_15',
-    text: 'Su equipo tiene las habilidades necesarias pero carece de confianza para un proyecto desafiante. Su respuesta:',
+    id: 'sit15',
+    text: 'Tienes que implementar un nuevo software. El equipo es competente tecnológicamente, pero se muestra cínico y reacio al cambio. ¿Cuál es tu estrategia?',
     options: [
-      { value: 'supporting', label: 'Construir confianza a través del aliento y apoyo' },
-      { value: 'coaching', label: 'Proporcionar orientación mientras construye confianza' },
-      { value: 'directing', label: 'Dividir el proyecto en pasos manejables' },
-      { value: 'delegating', label: 'Asignar el proyecto y expresar confianza en sus habilidades' }
+      { value: 'dirigir', label: 'Establezco la implementación como obligatoria y superviso el cumplimiento.' },
+      { value: 'entrenar', label: 'Proporciono capacitación intensiva y acompañamiento durante la transición.' },
+      { value: 'delegar', label: 'Les doy la responsabilidad de decidir cómo implementarlo.' },
+      { value: 'apoyar', label: 'Escucho sus preocupaciones y los involucro en el diseño de la implementación.' }
     ]
   },
   {
-    id: 'sit_16',
-    text: 'Un empleado experimentado comienza a cuestionar constantemente las decisiones del equipo. ¿Cómo manejaría esto?',
+    id: 'sit16',
+    text: 'Un miembro del equipo ha aprendido lo básico de una tarea, pero ahora está cometiendo errores por exceso de confianza. ¿Cómo corriges el rumbo?',
     options: [
-      { value: 'supporting', label: 'Facilitar una discusión abierta sobre las preocupaciones' },
-      { value: 'directing', label: 'Establecer límites claros sobre el comportamiento apropiado' },
-      { value: 'coaching', label: 'Trabajar con él para canalizar constructivamente sus preocupaciones' },
-      { value: 'delegating', label: 'Darle más responsabilidad en la toma de decisiones' }
+      { value: 'apoyar', label: 'Lo escucho y lo ayudo a reflexionar sobre los errores.' },
+      { value: 'delegar', label: 'Le doy más responsabilidad para que aprenda de sus errores.' },
+      { value: 'entrenar', label: 'Refuerzo la capacitación y proporciono feedback correctivo regular.' },
+      { value: 'dirigir', label: 'Vuelvo a supervisar de cerca y establezco controles de calidad.' }
     ]
   },
   {
-    id: 'sit_17',
-    text: 'Al introducir nueva tecnología, algunos miembros del equipo se adaptan rápidamente mientras otros luchan. Su enfoque:',
+    id: 'sit17',
+    text: 'Delegaste una tarea importante, y el colaborador la está ejecutando a la perfección. ¿Cuál es tu nivel de intervención?',
     options: [
-      { value: 'coaching', label: 'Proporcionar entrenamiento personalizado según las necesidades' },
-      { value: 'directing', label: 'Establecer un programa de entrenamiento estructurado para todos' },
-      { value: 'supporting', label: 'Crear grupos de apoyo entre pares' },
-      { value: 'delegating', label: 'Permitir que los que se adaptan rápido ayuden a otros' }
+      { value: 'entrenar', label: 'Proporciono feedback positivo y algunas sugerencias de mejora.' },
+      { value: 'dirigir', label: 'Aumento la supervisión para asegurar que se mantenga el estándar.' },
+      { value: 'delegar', label: 'No intervengo, solo recibo actualizaciones cuando me las proporciona.' },
+      { value: 'apoyar', label: 'Me mantengo disponible para consultas y celebro sus logros.' }
     ]
   },
   {
-    id: 'sit_18',
-    text: 'Un miembro del equipo altamente motivado pero con habilidades limitadas solicita un proyecto complejo. ¿Qué haría?',
+    id: 'sit18',
+    text: 'Un colaborador muy capaz se niega a realizar una tarea porque la considera "aburrida". ¿Cómo manejas la situación?',
     options: [
-      { value: 'coaching', label: 'Asignar el proyecto con mentoría intensiva' },
-      { value: 'directing', label: 'Proporcionar entrenamiento específico antes de asignar el proyecto' },
-      { value: 'supporting', label: 'Ofrecer un proyecto menos complejo pero igualmente motivador' },
-      { value: 'delegating', label: 'Asignar el proyecto y confiar en su motivación para aprender' }
+      { value: 'delegar', label: 'Le explico la importancia del proyecto y confío en que encontrará motivación.' },
+      { value: 'dirigir', label: 'Le explico que es parte de sus responsabilidades y debe hacerla.' },
+      { value: 'apoyar', label: 'Exploro con él formas de hacer la tarea más interesante o significativa.' },
+      { value: 'entrenar', label: 'Le muestro cómo la tarea se conecta con sus objetivos de desarrollo.' }
     ]
   },
   {
-    id: 'sit_19',
-    text: 'Su equipo está funcionando bien independientemente pero necesita coordinarse mejor entre sí. Su estrategia:',
+    id: 'sit19',
+    text: 'El equipo debe alcanzar un objetivo de ventas muy agresivo. Tienen algo de experiencia, pero la presión es alta y la moral es baja. ¿Qué tipo de liderazgo aplicas?',
     options: [
-      { value: 'supporting', label: 'Facilitar reuniones regulares de coordinación' },
-      { value: 'coaching', label: 'Enseñar habilidades de colaboración y comunicación' },
-      { value: 'directing', label: 'Establecer procesos claros de comunicación y coordinación' },
-      { value: 'delegating', label: 'Permitir que desarrollen sus propios métodos de coordinación' }
+      { value: 'apoyar', label: 'Me enfoco en motivar al equipo y facilitar la colaboración.' },
+      { value: 'dirigir', label: 'Establezco un plan detallado y superviso el progreso diariamente.' },
+      { value: 'delegar', label: 'Les doy total autonomía para que encuentren su propia estrategia.' },
+      { value: 'entrenar', label: 'Proporciono coaching intensivo y celebro cada pequeño avance.' }
     ]
   },
   {
-    id: 'sit_20',
-    text: 'Un empleado competente está pasando por problemas personales que afectan su rendimiento. ¿Cómo respondería?',
+    id: 'sit20',
+    text: 'Acabas de ser nombrado líder de un equipo de alto rendimiento que siempre ha trabajado de forma autónoma. ¿Cómo es tu primer mes?',
     options: [
-      { value: 'supporting', label: 'Ofrecer flexibilidad y apoyo emocional' },
-      { value: 'coaching', label: 'Trabajar juntos para mantener el rendimiento durante la crisis' },
-      { value: 'directing', label: 'Establecer expectativas claras pero ajustadas temporalmente' },
-      { value: 'delegating', label: 'Darle espacio para manejar sus asuntos mientras mantiene responsabilidades' }
-    ]
-  },
-  {
-    id: 'sit_21',
-    text: 'Al formar un nuevo equipo con miembros de diferentes departamentos, su primer enfoque sería:',
-    options: [
-      { value: 'directing', label: 'Establecer roles, responsabilidades y procesos claros' },
-      { value: 'coaching', label: 'Facilitar sesiones de conocimiento mutuo y establecimiento de objetivos' },
-      { value: 'supporting', label: 'Crear oportunidades para que se conozcan y construyan confianza' },
-      { value: 'delegating', label: 'Permitir que se organicen naturalmente basándose en sus fortalezas' }
-    ]
-  },
-  {
-    id: 'sit_22',
-    text: 'Un miembro experimentado del equipo está entrenando a un nuevo empleado pero usando métodos obsoletos. ¿Qué haría?',
-    options: [
-      { value: 'coaching', label: 'Trabajar con el mentor para actualizar sus métodos de entrenamiento' },
-      { value: 'directing', label: 'Proporcionar nuevos materiales y métodos de entrenamiento' },
-      { value: 'supporting', label: 'Facilitar una discusión sobre mejores prácticas de mentoría' },
-      { value: 'delegating', label: 'Confiar en que el mentor se adapte con el tiempo' }
-    ]
-  },
-  {
-    id: 'sit_23',
-    text: 'Su equipo está dividido sobre la priorización de tareas en un proyecto complejo. Su respuesta sería:',
-    options: [
-      { value: 'directing', label: 'Establecer las prioridades basándose en objetivos estratégicos' },
-      { value: 'coaching', label: 'Guiar al equipo a través de un proceso de priorización' },
-      { value: 'supporting', label: 'Facilitar una discusión para llegar a consenso' },
-      { value: 'delegating', label: 'Permitir que el equipo resuelva las prioridades internamente' }
-    ]
-  },
-  {
-    id: 'sit_24',
-    text: 'Un empleado altamente competente solicita constantemente nuevos desafíos y se aburre fácilmente. ¿Cómo lo manejaría?',
-    options: [
-      { value: 'delegating', label: 'Asignar proyectos complejos con autonomía completa' },
-      { value: 'coaching', label: 'Trabajar juntos para identificar oportunidades de crecimiento' },
-      { value: 'supporting', label: 'Proporcionar variedad en las asignaciones y reconocimiento' },
-      { value: 'directing', label: 'Establecer objetivos progresivamente más desafiantes' }
-    ]
-  },
-  {
-    id: 'sit_25',
-    text: 'Durante un período de alta presión, algunos miembros del equipo están sobrepasados mientras otros parecen subutilizados. Su enfoque:',
-    options: [
-      { value: 'directing', label: 'Redistribuir las cargas de trabajo de manera equitativa' },
-      { value: 'coaching', label: 'Trabajar con el equipo para optimizar la distribución de tareas' },
-      { value: 'supporting', label: 'Facilitar la colaboración y el apoyo mutuo' },
-      { value: 'delegating', label: 'Permitir que el equipo se auto-organice para manejar la carga' }
-    ]
-  },
-  {
-    id: 'sit_26',
-    text: 'Un miembro del equipo con buenas habilidades técnicas tiene dificultades con la comunicación interpersonal. ¿Qué haría?',
-    options: [
-      { value: 'coaching', label: 'Proporcionar entrenamiento específico en habilidades de comunicación' },
-      { value: 'supporting', label: 'Crear oportunidades de práctica en un ambiente de apoyo' },
-      { value: 'directing', label: 'Establecer expectativas claras sobre comunicación profesional' },
-      { value: 'delegating', label: 'Asignar tareas que aprovechen sus fortalezas técnicas' }
-    ]
-  },
-  {
-    id: 'sit_27',
-    text: 'Su equipo ha completado exitosamente varios proyectos y ahora enfrenta uno significativamente más complejo. Su estrategia:',
-    options: [
-      { value: 'coaching', label: 'Proporcionar orientación adicional dada la complejidad aumentada' },
-      { value: 'supporting', label: 'Ofrecer recursos adicionales y apoyo moral' },
-      { value: 'delegating', label: 'Confiar en su experiencia previa para manejar la complejidad' },
-      { value: 'directing', label: 'Establecer estructura y supervisión adicional debido a la complejidad' }
-    ]
-  },
-  {
-    id: 'sit_28',
-    text: 'Un empleado nuevo muestra gran potencial pero comete errores por exceso de confianza. ¿Cómo lo abordaría?',
-    options: [
-      { value: 'coaching', label: 'Proporcionar retroalimentación regular y orientación sobre juicio' },
-      { value: 'directing', label: 'Establecer procesos de revisión y aprobación más estrictos' },
-      { value: 'supporting', label: 'Balancear el aliento con recordatorios sobre precaución' },
-      { value: 'delegating', label: 'Permitir que aprenda de sus errores naturalmente' }
-    ]
-  },
-  {
-    id: 'sit_29',
-    text: 'Su equipo experimentado está trabajando en un proyecto rutinario pero crítico para la empresa. Su enfoque sería:',
-    options: [
-      { value: 'delegating', label: 'Asignar el proyecto y permitir autonomía completa' },
-      { value: 'supporting', label: 'Estar disponible para apoyo pero no interferir' },
-      { value: 'coaching', label: 'Revisar el progreso regularmente y ofrecer orientación' },
-      { value: 'directing', label: 'Supervisar de cerca dada la importancia crítica' }
-    ]
-  },
-  {
-    id: 'sit_30',
-    text: 'Al implementar cambios organizacionales, algunos miembros del equipo abrazan el cambio mientras otros se resisten. Su respuesta:',
-    options: [
-      { value: 'coaching', label: 'Trabajar individualmente con cada miembro según su nivel de aceptación' },
-      { value: 'directing', label: 'Comunicar claramente las expectativas y consecuencias del cambio' },
-      { value: 'supporting', label: 'Crear un ambiente de apoyo para facilitar la transición' },
-      { value: 'delegating', label: 'Permitir que los que abrazan el cambio influyan en los demás' }
-    ]
-  },
-  {
-    id: 'sit_31',
-    text: 'Un miembro del equipo altamente competente comienza a mostrar signos de agotamiento (burnout). ¿Qué haría?',
-    options: [
-      { value: 'supporting', label: 'Ofrecer apoyo emocional y ajustar la carga de trabajo' },
-      { value: 'coaching', label: 'Trabajar juntos para identificar causas y soluciones' },
-      { value: 'directing', label: 'Implementar cambios inmediatos en sus responsabilidades' },
-      { value: 'delegating', label: 'Darle autonomía para manejar su situación y carga de trabajo' }
-    ]
-  },
-  {
-    id: 'sit_32',
-    text: 'Su equipo necesita adoptar nuevas herramientas tecnológicas. Algunos miembros son entusiastas de la tecnología, otros son reacios. Su enfoque:',
-    options: [
-      { value: 'coaching', label: 'Proporcionar entrenamiento personalizado basado en el nivel de comodidad' },
-      { value: 'directing', label: 'Implementar un programa de entrenamiento estructurado para todos' },
-      { value: 'supporting', label: 'Crear sistemas de apoyo entre pares' },
-      { value: 'delegating', label: 'Permitir que los entusiastas lideren la adopción' }
-    ]
-  },
-  {
-    id: 'sit_33',
-    text: 'Un empleado con habilidades sólidas está luchando con la confianza después de recibir críticas de un cliente. Su respuesta:',
-    options: [
-      { value: 'supporting', label: 'Enfocarse en reconstruir la confianza y proporcionar aliento' },
-      { value: 'coaching', label: 'Analizar la situación juntos y desarrollar estrategias de mejora' },
-      { value: 'directing', label: 'Proporcionar orientación específica sobre manejo de clientes' },
-      { value: 'delegating', label: 'Asignar un proyecto exitoso para restaurar la confianza' }
-    ]
-  },
-  {
-    id: 'sit_34',
-    text: 'Su equipo está compuesto por miembros con diferentes niveles de experiencia trabajando en el mismo proyecto. Su estrategia sería:',
-    options: [
-      { value: 'coaching', label: 'Proporcionar orientación diferenciada basada en el nivel de experiencia' },
-      { value: 'directing', label: 'Establecer procesos claros que funcionen para todos los niveles' },
-      { value: 'supporting', label: 'Facilitar la mentoría entre pares y el apoyo mutuo' },
-      { value: 'delegating', label: 'Asignar roles basados en fortalezas individuales' }
-    ]
-  },
-  {
-    id: 'sit_35',
-    text: 'Un miembro experimentado del equipo está cuestionando la dirección del proyecto basándose en su experiencia pasada. ¿Cómo respondería?',
-    options: [
-      { value: 'supporting', label: 'Facilitar una discusión abierta sobre sus preocupaciones' },
-      { value: 'coaching', label: 'Explorar juntos cómo su experiencia puede informar el proyecto actual' },
-      { value: 'directing', label: 'Explicar claramente la rationale detrás de la dirección actual' },
-      { value: 'delegating', label: 'Darle más responsabilidad en la planificación del proyecto' }
-    ]
-  },
-  {
-    id: 'sit_36',
-    text: 'Durante una fase crítica del proyecto, un miembro clave del equipo debe ausentarse por razones familiares. Su enfoque inmediato:',
-    options: [
-      { value: 'directing', label: 'Reorganizar inmediatamente las responsabilidades y supervisar de cerca' },
-      { value: 'coaching', label: 'Trabajar con el equipo para redistribuir tareas y proporcionar orientación' },
-      { value: 'supporting', label: 'Facilitar que el equipo se apoye mutuamente durante la transición' },
-      { value: 'delegating', label: 'Confiar en que el equipo se reorganice efectivamente' }
-    ]
-  },
-  {
-    id: 'sit_37',
-    text: 'Su equipo ha desarrollado una dinámica de trabajo efectiva, pero necesita integrar a un nuevo miembro senior. ¿Qué haría?',
-    options: [
-      { value: 'coaching', label: 'Facilitar la integración mientras se mantiene la dinámica existente' },
-      { value: 'supporting', label: 'Crear oportunidades para que el nuevo miembro se integre naturalmente' },
-      { value: 'directing', label: 'Establecer claramente cómo el nuevo miembro encaja en la estructura' },
-      { value: 'delegating', label: 'Permitir que el equipo y el nuevo miembro encuentren su equilibrio' }
-    ]
-  },
-  {
-    id: 'sit_38',
-    text: 'Un empleado competente está consistentemente perdiendo fechas límite debido a perfeccionismo. Su respuesta sería:',
-    options: [
-      { value: 'coaching', label: 'Trabajar juntos para establecer estándares realistas de calidad vs. tiempo' },
-      { value: 'directing', label: 'Establecer límites de tiempo firmes y criterios de "suficientemente bueno"' },
-      { value: 'supporting', label: 'Ayudar a manejar la ansiedad relacionada con la imperfección' },
-      { value: 'delegating', label: 'Darle proyectos donde la perfección sea menos crítica' }
-    ]
-  },
-  {
-    id: 'sit_39',
-    text: 'Su equipo está funcionando bien pero necesita mejorar su innovación y creatividad. Su estrategia sería:',
-    options: [
-      { value: 'supporting', label: 'Crear un ambiente que fomente la experimentación y el riesgo calculado' },
-      { value: 'coaching', label: 'Facilitar sesiones de brainstorming y enseñar técnicas creativas' },
-      { value: 'delegating', label: 'Dar libertad completa para explorar nuevas aproximaciones' },
-      { value: 'directing', label: 'Establecer objetivos específicos de innovación y métricas' }
-    ]
-  },
-  {
-    id: 'sit_40',
-    text: 'Al final de un proyecto exitoso, su equipo está celebrando pero ya necesita enfocarse en el siguiente desafío. Su enfoque:',
-    options: [
-      { value: 'supporting', label: 'Permitir la celebración mientras gradualmente introduce el nuevo proyecto' },
-      { value: 'coaching', label: 'Usar las lecciones del proyecto exitoso para preparar el siguiente' },
-      { value: 'directing', label: 'Establecer claramente las expectativas y cronograma del nuevo proyecto' },
-      { value: 'delegating', label: 'Confiar en que el momentum del éxito los lleve al siguiente proyecto' }
+      { value: 'entrenar', label: 'Establezco nuevos procesos y proporciono orientación sobre mis expectativas.' },
+      { value: 'apoyar', label: 'Me enfoco en conocer al equipo y estar disponible cuando me necesiten.' },
+      { value: 'dirigir', label: 'Establezco mi autoridad y nuevas reglas de operación.' },
+      { value: 'delegar', label: 'Mantengo el status quo y les doy total autonomía.' }
     ]
   }
 ];
+
+// ===== PREGUNTAS HOGAN =====
 
 export const HOGAN_STYLE_QUESTIONS: Question[] = [
   {
-    id: 'hogan_1',
-    text: 'Cuando me enfrento a un desafío, mi primera reacción es:',
+    id: 'hogan1',
+    text: 'Me frustro cuando las cosas no salen exactamente como las planeé.',
     options: [
-      { value: 'cautious', label: 'Analizar todas las opciones posibles antes de actuar.' },
-      { value: 'bold', label: 'Tomar una decisión rápida basada en mi intuición.' },
-      { value: 'colorful', label: 'Buscar la opinión y el consejo de mis colegas.' },
-      { value: 'diligent', label: 'Dividir el problema en partes más pequeñas y abordarlas una por una.' }
+      { value: '3', label: 'Ni de acuerdo ni en desacuerdo' },
+      { value: '1', label: 'Totalmente en desacuerdo' },
+      { value: '5', label: 'Totalmente de acuerdo' },
+      { value: '2', label: 'En desacuerdo' },
+      { value: '4', label: 'De acuerdo' }
     ]
   },
   {
-    id: 'hogan_2',
-    text: 'Me siento más energizado en el trabajo cuando:',
+    id: 'hogan2',
+    text: 'Tiendo a ser el centro de atención en las reuniones.',
     options: [
-      { value: 'colorful', label: 'Estoy interactuando y colaborando con muchas personas.' },
-      { value: 'cautious', label: 'Estoy concentrado en una tarea compleja sin interrupciones.' },
-      { value: 'bold', label: 'Estoy compitiendo por alcanzar un objetivo ambicioso.' },
-      { value: 'dutiful', label: 'Estoy ayudando a otros a tener éxito.' }
+      { value: '4', label: 'De acuerdo' },
+      { value: '2', label: 'En desacuerdo' },
+      { value: '1', label: 'Totalmente en desacuerdo' },
+      { value: '5', label: 'Totalmente de acuerdo' },
+      { value: '3', label: 'Ni de acuerdo ni en desacuerdo' }
     ]
   },
   {
-    id: 'hogan_3',
-    text: 'En un entorno de equipo, tiendo a ser la persona que:',
+    id: 'hogan3',
+    text: 'A veces, mi deseo de complacer a los demás me impide tomar decisiones difíciles.',
     options: [
-      { value: 'dutiful', label: 'Asegura que todos se sientan incluidos y escuchados.' },
-      { value: 'bold', label: 'Mantiene al equipo enfocado en los objetivos y los plazos.' },
-      { value: 'imaginative', label: 'Aporta ideas nuevas y desafía el status quo.' },
-      { value: 'diligent', label: 'Organiza el trabajo y se asegura de que los procesos se sigan correctamente.' }
+      { value: '1', label: 'Totalmente en desacuerdo' },
+      { value: '3', label: 'Ni de acuerdo ni en desacuerdo' },
+      { value: '4', label: 'De acuerdo' },
+      { value: '5', label: 'Totalmente de acuerdo' },
+      { value: '2', label: 'En desacuerdo' }
     ]
   },
   {
-    id: 'hogan_4',
-    text: 'A la hora de tomar decisiones importantes, confío más en:',
+    id: 'hogan4',
+    text: 'Prefiero seguir mi intuición y mi propio juicio antes que analizar datos de forma exhaustiva.',
     options: [
-      { value: 'cautious', label: 'Los datos, la evidencia y el análisis lógico.' },
-      { value: 'bold', label: 'Mi experiencia pasada y mi intuición.' },
-      { value: 'colorful', label: 'El consenso y la opinión del equipo.' },
-      { value: 'dutiful', label: 'Los principios y valores establecidos.' }
+      { value: '5', label: 'Totalmente de acuerdo' },
+      { value: '1', label: 'Totalmente en desacuerdo' },
+      { value: '2', label: 'En desacuerdo' },
+      { value: '4', label: 'De acuerdo' },
+      { value: '3', label: 'Ni de acuerdo ni en desacuerdo' }
     ]
   },
   {
-    id: 'hogan_5',
-    text: 'Cuando recibo retroalimentación crítica, yo:',
+    id: 'hogan5',
+    text: 'Soy muy crítico con el trabajo de los demás, busco la perfección.',
     options: [
-      { value: 'dutiful', label: 'La agradezco y la veo como una oportunidad para mejorar.' },
-      { value: 'cautious', label: 'La analizo cuidadosamente para ver si es válida.' },
-      { value: 'colorful', label: 'A veces me siento a la defensiva, pero intento escuchar.' },
-      { value: 'sensitive', label: 'Tiende a afectarme personalmente durante un tiempo.' }
+      { value: '2', label: 'En desacuerdo' },
+      { value: '4', label: 'De acuerdo' },
+      { value: '3', label: 'Ni de acuerdo ni en desacuerdo' },
+      { value: '1', label: 'Totalmente en desacuerdo' },
+      { value: '5', label: 'Totalmente de acuerdo' }
     ]
   },
   {
-    id: 'hogan_6',
-    text: '¿Qué frase describe mejor su actitud hacia las reglas y procedimientos?',
+    id: 'hogan6',
+    text: 'Me cuesta confiar en los demás para que hagan el trabajo tan bien como yo.',
     options: [
-      { value: 'diligent', label: 'Son esenciales para la eficiencia y deben seguirse de cerca.' },
-      { value: 'cautious', label: 'Son una guía útil, pero la flexibilidad es clave para el éxito.' },
-      { value: 'imaginative', label: 'A veces pueden obstaculizar la innovación y la creatividad.' },
-      { value: 'bold', label: 'Prefiero crear mis propios sistemas para hacer las cosas.' }
+      { value: '3', label: 'Ni de acuerdo ni en desacuerdo' },
+      { value: '5', label: 'Totalmente de acuerdo' },
+      { value: '1', label: 'Totalmente en desacuerdo' },
+      { value: '4', label: 'De acuerdo' },
+      { value: '2', label: 'En desacuerdo' }
     ]
   },
   {
-    id: 'hogan_7',
-    text: 'Prefiero un ambiente de trabajo que sea:',
+    id: 'hogan7',
+    text: 'Cuando estoy bajo presión, puedo parecer distante y poco comunicativo.',
     options: [
-      { value: 'diligent', label: 'Predecible, estable y organizado.' },
-      { value: 'bold', label: 'Dinámico, de ritmo rápido y lleno de cambios.' },
-      { value: 'dutiful', label: 'Colaborativo, armonioso y centrado en el equipo.' },
-      { value: 'imaginative', label: 'Competitivo, orientado a resultados y ambicioso.' }
+      { value: '4', label: 'De acuerdo' },
+      { value: '1', label: 'Totalmente en desacuerdo' },
+      { value: '5', label: 'Totalmente de acuerdo' },
+      { value: '3', label: 'Ni de acuerdo ni en desacuerdo' },
+      { value: '2', label: 'En desacuerdo' }
     ]
   },
   {
-    id: 'hogan_8',
-    text: 'Cuando un proyecto no sale como esperaba, mi reacción es:',
+    id: 'hogan8',
+    text: 'Disfruto tomando riesgos, incluso cuando otros son más cautelosos.',
     options: [
-      { value: 'cautious', label: 'Analizar qué salió mal para no repetir los errores.' },
-      { value: 'bold', label: 'Buscar una solución alternativa rápidamente.' },
-      { value: 'colorful', label: 'No preocuparme demasiado; los contratiempos ocurren.' },
-      { value: 'sensitive', label: 'Sentirme frustrado y decepcionado conmigo mismo.' }
+      { value: '2', label: 'En desacuerdo' },
+      { value: '3', label: 'Ni de acuerdo ni en desacuerdo' },
+      { value: '1', label: 'Totalmente en desacuerdo' },
+      { value: '5', label: 'Totalmente de acuerdo' },
+      { value: '4', label: 'De acuerdo' }
     ]
   },
   {
-    id: 'hogan_9',
-    text: 'Soy más eficaz cuando:',
+    id: 'hogan9',
+    text: 'Me siento más cómodo cuando sigo rutinas y procedimientos establecidos.',
     options: [
-      { value: 'diligent', label: 'Tengo un plan claro y detallado que seguir.' },
-      { value: 'imaginative', label: 'Tengo la libertad de improvisar y adaptar mi enfoque.' },
-      { value: 'dutiful', label: 'Trabajo en estrecha colaboración con otros.' },
-      { value: 'bold', label: 'Tengo un objetivo claro y la autonomía para alcanzarlo.' }
+      { value: '5', label: 'Totalmente de acuerdo' },
+      { value: '2', label: 'En desacuerdo' },
+      { value: '4', label: 'De acuerdo' },
+      { value: '1', label: 'Totalmente en desacuerdo' },
+      { value: '3', label: 'Ni de acuerdo ni en desacuerdo' }
     ]
   },
   {
-    id: 'hogan_10',
-    text: 'En las reuniones, soy el que probablemente:',
+    id: 'hogan10',
+    text: 'A veces, mi confianza en mí mismo puede ser interpretada como arrogancia.',
     options: [
-      { value: 'diligent', label: 'Toma notas detalladas y se asegura de que se siga la agenda.' },
-      { value: 'dutiful', label: 'Se asegura de que todas las voces sean escuchadas.' },
-      { value: 'imaginative', label: 'Desafía las ideas y propone alternativas audaces.' },
-      { value: 'bold', label: 'Habla sobre los resultados y los próximos pasos.' }
+      { value: '1', label: 'Totalmente en desacuerdo' },
+      { value: '4', label: 'De acuerdo' },
+      { value: '3', label: 'Ni de acuerdo ni en desacuerdo' },
+      { value: '2', label: 'En desacuerdo' },
+      { value: '5', label: 'Totalmente de acuerdo' }
     ]
   },
   {
-    id: 'hogan_11',
-    text: 'Mi actitud hacia el riesgo es:',
+    id: 'hogan11',
+    text: 'Me esfuerzo mucho por mantener la armonía en el equipo, incluso si eso significa evitar conflictos necesarios.',
     options: [
-      { value: 'cautious', label: 'Prefiero evitarlo; la seguridad es importante.' },
-      { value: 'diligent', label: 'Estoy dispuesto a tomar riesgos calculados si la recompensa es alta.' },
-      { value: 'imaginative', label: 'Los riesgos son necesarios para la innovación y el crecimiento.' },
-      { value: 'bold', label: 'Me entusiasma la idea de tomar riesgos audaces.' }
+      { value: '3', label: 'Ni de acuerdo ni en desacuerdo' },
+      { value: '1', label: 'Totalmente en desacuerdo' },
+      { value: '5', label: 'Totalmente de acuerdo' },
+      { value: '4', label: 'De acuerdo' },
+      { value: '2', label: 'En desacuerdo' }
     ]
   },
   {
-    id: 'hogan_12',
-    text: 'Cuando se trata de mi red de contactos profesionales:',
+    id: 'hogan12',
+    text: 'Puedo ser escéptico y cuestionar las motivaciones de los demás.',
     options: [
-      { value: 'colorful', label: 'Disfruto conociendo gente nueva y ampliando mi red constantemente.' },
-      { value: 'cautious', label: 'Prefiero mantener un círculo pequeño de contactos de confianza.' },
-      { value: 'bold', label: 'Construyo relaciones estratégicamente, pensando en objetivos a largo plazo.' },
-      { value: 'dutiful', label: 'Mi red se construye de forma natural a través de mi trabajo.' }
+      { value: '2', label: 'En desacuerdo' },
+      { value: '5', label: 'Totalmente de acuerdo' },
+      { value: '4', label: 'De acuerdo' },
+      { value: '3', label: 'Ni de acuerdo ni en desacuerdo' },
+      { value: '1', label: 'Totalmente en desacuerdo' }
     ]
   },
   {
-    id: 'hogan_13',
-    text: '¿Cuál de estas afirmaciones le describe mejor?',
+    id: 'hogan13',
+    text: 'Me gusta mantener un control estricto sobre los proyectos en los que estoy involucrado.',
     options: [
-      { value: 'dutiful', label: 'Soy diplomático y siempre intento no herir los sentimientos de los demás.' },
-      { value: 'bold', label: 'Soy directo y digo lo que pienso, aunque a veces sea difícil.' },
-      { value: 'cautious', label: 'Soy reservado y no comparto mis opiniones a menos que sea necesario.' },
-      { value: 'diligent', label: 'Soy analítico y baso mis argumentos en hechos, no en emociones.' }
+      { value: '4', label: 'De acuerdo' },
+      { value: '1', label: 'Totalmente en desacuerdo' },
+      { value: '2', label: 'En desacuerdo' },
+      { value: '5', label: 'Totalmente de acuerdo' },
+      { value: '3', label: 'Ni de acuerdo ni en desacuerdo' }
     ]
   },
   {
-    id: 'hogan_14',
-    text: 'Me motiva más:',
+    id: 'hogan14',
+    text: 'A veces prometo más de lo que puedo cumplir para mantener a la gente entusiasmada.',
     options: [
-      { value: 'bold', label: 'El reconocimiento público y la oportunidad de liderar.' },
-      { value: 'cautious', label: 'La oportunidad de aprender algo nuevo y resolver problemas complejos.' },
-      { value: 'diligent', label: 'La estabilidad, la seguridad y un ambiente de trabajo predecible.' },
-      { value: 'dutiful', label: 'Ayudar a mi equipo y a la organización a alcanzar sus metas.' }
+      { value: '3', label: 'Ni de acuerdo ni en desacuerdo' },
+      { value: '5', label: 'Totalmente de acuerdo' },
+      { value: '2', label: 'En desacuerdo' },
+      { value: '1', label: 'Totalmente en desacuerdo' },
+      { value: '4', label: 'De acuerdo' }
     ]
   },
   {
-    id: 'hogan_15',
-    text: 'Bajo presión, tiendo a volverme:',
+    id: 'hogan15',
+    text: 'Me enfoco tanto en los detalles que a veces puedo perder de vista el panorama general.',
     options: [
-      { value: 'diligent', label: 'Más centrado, tranquilo y eficiente.' },
-      { value: 'sensitive', label: 'Algo ansioso, pero sigo funcionando bien.' },
-      { value: 'bold', label: 'Decisivo y directo, a veces incluso un poco impaciente.' },
-      { value: 'colorful', label: 'Más colaborador, buscando el apoyo de los demás.' }
+      { value: '1', label: 'Totalmente en desacuerdo' },
+      { value: '4', label: 'De acuerdo' },
+      { value: '5', label: 'Totalmente de acuerdo' },
+      { value: '3', label: 'Ni de acuerdo ni en desacuerdo' },
+      { value: '2', label: 'En desacuerdo' }
     ]
   },
   {
-    id: 'hogan_16',
-    text: 'Prefiero las tareas que:',
+    id: 'hogan16',
+    text: 'Soy muy directo en mi comunicación, lo que a veces puede ofender a la gente sensible.',
     options: [
-      { value: 'diligent', label: 'Tienen un principio y un fin claros y bien definidos.' },
-      { value: 'imaginative', label: 'Son abiertas y me permiten explorar diferentes posibilidades.' },
-      { value: 'colorful', label: 'Me permiten interactuar con clientes o colegas.' },
-      { value: 'cautious', label: 'Me permiten organizar y mejorar los sistemas existentes.' }
+      { value: '2', label: 'En desacuerdo' },
+      { value: '3', label: 'Ni de acuerdo ni en desacuerdo' },
+      { value: '1', label: 'Totalmente en desacuerdo' },
+      { value: '5', label: 'Totalmente de acuerdo' },
+      { value: '4', label: 'De acuerdo' }
     ]
   },
   {
-    id: 'hogan_17',
-    text: 'Cuando lidero un proyecto, pongo más énfasis en:',
+    id: 'hogan17',
+    text: 'Me cuesta decir "no" a las peticiones de mis superiores.',
     options: [
-      { value: 'diligent', label: 'El plan, el cronograma y el presupuesto.' },
-      { value: 'imaginative', label: 'La visión, la innovación y la imagen general.' },
-      { value: 'dutiful', label: 'La gente, la moral del equipo y la colaboración.' },
-      { value: 'bold', label: 'Los resultados, la eficiencia y el cumplimiento de los objetivos.' }
+      { value: '5', label: 'Totalmente de acuerdo' },
+      { value: '1', label: 'Totalmente en desacuerdo' },
+      { value: '3', label: 'Ni de acuerdo ni en desacuerdo' },
+      { value: '2', label: 'En desacuerdo' },
+      { value: '4', label: 'De acuerdo' }
     ]
   },
   {
-    id: 'hogan_18',
-    text: 'Considero que el conflicto en un equipo es:',
+    id: 'hogan18',
+    text: 'Pienso que las reglas están para romperse si con eso se consiguen mejores resultados.',
     options: [
-      { value: 'dutiful', label: 'Algo que debe evitarse a toda costa para mantener la armonía.' },
-      { value: 'cautious', label: 'Destructivo si es personal, pero útil si se trata de ideas.' },
-      { value: 'colorful', label: 'Una parte natural y a veces necesaria del trabajo en equipo.' },
-      { value: 'imaginative', label: 'Una oportunidad para que surjan las mejores ideas.' }
+      { value: '4', label: 'De acuerdo' },
+      { value: '2', label: 'En desacuerdo' },
+      { value: '5', label: 'Totalmente de acuerdo' },
+      { value: '1', label: 'Totalmente en desacuerdo' },
+      { value: '3', label: 'Ni de acuerdo ni en desacuerdo' }
     ]
   },
   {
-    id: 'hogan_19',
-    text: 'Mi estilo de comunicación es generalmente:',
+    id: 'hogan19',
+    text: 'Soy cauteloso a la hora de tomar decisiones importantes, a veces demasiado.',
     options: [
-      { value: 'colorful', label: 'Entusiasta e inspirador.' },
-      { value: 'cautious', label: 'Tranquilo, reflexivo y basado en hechos.' },
-      { value: 'dutiful', label: 'Cálido, empático y alentador.' },
-      { value: 'bold', label: 'Claro, conciso y directo al grano.' }
+      { value: '3', label: 'Ni de acuerdo ni en desacuerdo' },
+      { value: '4', label: 'De acuerdo' },
+      { value: '1', label: 'Totalmente en desacuerdo' },
+      { value: '5', label: 'Totalmente de acuerdo' },
+      { value: '2', label: 'En desacuerdo' }
     ]
   },
   {
-    id: 'hogan_20',
-    text: 'Cuando aprendo algo nuevo, prefiero:',
+    id: 'hogan20',
+    text: 'Cuando un proyecto me apasiona, puedo presionar al equipo de manera muy intensa.',
     options: [
-      { value: 'diligent', label: 'Un curso estructurado con un experto.' },
-      { value: 'imaginative', label: 'Experimentar y aprender haciendo.' },
-      { value: 'cautious', label: 'Leer libros y artículos por mi cuenta.' },
-      { value: 'colorful', label: 'Discutirlo con otros y aprender de sus experiencias.' }
-    ]
-  },
-  {
-    id: 'hogan_21',
-    text: 'La gente probablemente me describiría como:',
-    options: [
-      { value: 'diligent', label: 'Fiable y metódico.' },
-      { value: 'imaginative', label: 'Creativo y visionario.' },
-      { value: 'dutiful', label: 'Amigable y accesible.' },
-      { value: 'bold', label: 'Ambicioso y orientado a la acción.' }
-    ]
-  },
-  {
-    id: 'hogan_22',
-    text: '¿Qué es más importante para usted en el trabajo?',
-    options: [
-      { value: 'bold', label: 'Lograr resultados y avanzar en mi carrera.' },
-      { value: 'colorful', label: 'Tener buenas relaciones con mis compañeros.' },
-      { value: 'cautious', label: 'Tener un trabajo interesante que me desafíe intelectualmente.' },
-      { value: 'diligent', label: 'Tener seguridad laboral y un entorno de trabajo estable.' }
-    ]
-  },
-  {
-    id: 'hogan_23',
-    text: 'Cuando me uno a un grupo nuevo, tiendo a:',
-    options: [
-      { value: 'colorful', label: 'Presentarme y hablar con tantas personas como sea posible.' },
-      { value: 'cautious', label: 'Observar primero y hablar cuando me siento cómodo.' },
-      { value: 'dutiful', label: 'Buscar a una o dos personas con las que conectar.' },
-      { value: 'bold', label: 'Centrarme en la tarea o el propósito del grupo.' }
-    ]
-  },
-  {
-    id: 'hogan_24',
-    text: 'Me resulta fácil:',
-    options: [
-      { value: 'diligent', label: 'Mantener la calma en situaciones de alta presión.' },
-      { value: 'imaginative', label: 'Pensar en ideas originales y fuera de lo común.' },
-      { value: 'cautious', label: 'Organizar planes y proyectos complejos.' },
-      { value: 'dutiful', label: 'Entender los sentimientos y perspectivas de los demás.' }
-    ]
-  },
-  {
-    id: 'hogan_25',
-    text: 'Es más probable que me irrite:',
-    options: [
-      { value: 'diligent', label: 'La ineficiencia y la falta de planificación.' },
-      { value: 'imaginative', label: 'La gente que se resiste a nuevas ideas.' },
-      { value: 'dutiful', label: 'La falta de armonía y los conflictos interpersonales.' },
-      { value: 'bold', label: 'La falta de ambición o la complacencia.' }
-    ]
-  },
-  {
-    id: 'hogan_26',
-    text: 'Si tuviera que elegir, preferiría ser conocido como alguien que es:',
-    options: [
-      { value: 'dutiful', label: 'Justo y coherente.' },
-      { value: 'imaginative', label: 'Innovador y audaz.' },
-      { value: 'colorful', label: 'Compasivo y solidario.' },
-      { value: 'bold', label: 'Eficaz y decidido.' }
-    ]
-  },
-  {
-    id: 'hogan_27',
-    text: 'Cuando planifico mi día, yo:',
-    options: [
-      { value: 'diligent', label: 'Hago una lista detallada de tareas y la sigo rigurosamente.' },
-      { value: 'imaginative', label: 'Tengo una idea general de lo que necesito hacer, pero dejo espacio para la espontaneidad.' },
-      { value: 'dutiful', label: 'Priorizo las tareas que involucran a otras personas.' },
-      { value: 'bold', label: 'Me centro primero en la tarea más grande y desafiante.' }
-    ]
-  },
-  {
-    id: 'hogan_28',
-    text: 'Me siento satisfecho cuando:',
-    options: [
-      { value: 'diligent', label: 'Completo una tarea a la perfección, sin errores.' },
-      { value: 'bold', label: 'Supero a un competidor o alcanzo una meta difícil.' },
-      { value: 'cautious', label: 'Aprendo una nueva habilidad o resuelvo un enigma.' },
-      { value: 'dutiful', label: 'He ayudado a un colega a resolver un problema.' }
-    ]
-  },
-  {
-    id: 'hogan_29',
-    text: 'Mi opinión sobre la multitarea es que:',
-    options: [
-      { value: 'colorful', label: 'Es una habilidad esencial y la practico a menudo.' },
-      { value: 'cautious', label: 'Prefiero centrarme en una cosa a la vez para garantizar la calidad.' },
-      { value: 'diligent', label: 'Es inevitable, pero trato de minimizarla.' },
-      { value: 'bold', label: 'Me gusta la energía de hacer varias cosas a la vez.' }
-    ]
-  },
-  {
-    id: 'hogan_30',
-    text: 'Cuando me presentan información nueva, mi tendencia es a:',
-    options: [
-      { value: 'dutiful', label: 'Aceptarla si viene de una fuente fiable.' },
-      { value: 'cautious', label: 'Ser escéptico y cuestionarla.' },
-      { value: 'diligent', label: 'Conectarla con lo que ya sé.' },
-      { value: 'bold', label: 'Pensar inmediatamente en cómo podría aplicarla.' }
-    ]
-  },
-  {
-    id: 'hogan_31',
-    text: '¿Qué describe mejor su relación con la atención al detalle?',
-    options: [
-      { value: 'diligent', label: 'Soy meticuloso; los detalles son cruciales.' },
-      { value: 'imaginative', label: 'Me centro en la visión general; los detalles pueden ser delegados.' },
-      { value: 'cautious', label: 'Presto atención a los detalles si son importantes para el resultado final.' },
-      { value: 'colorful', label: 'Puedo ser bueno con los detalles, pero no es mi actividad favorita.' }
-    ]
-  },
-  {
-    id: 'hogan_32',
-    text: 'En una discusión, mi objetivo es:',
-    options: [
-      { value: 'bold', label: 'Ganar el argumento y demostrar que tengo razón.' },
-      { value: 'cautious', label: 'Encontrar la mejor solución posible, sin importar de quién venga la idea.' },
-      { value: 'dutiful', label: 'Asegurarme de que todos se sientan escuchados y respetados.' },
-      { value: 'diligent', label: 'Llegar a una conclusión lógica basada en la evidencia.' }
-    ]
-  },
-  {
-    id: 'hogan_33',
-    text: 'Cuando hablo en público:',
-    options: [
-      { value: 'colorful', label: 'Me siento cómodo y disfruto de la oportunidad.' },
-      { value: 'diligent', label: 'Me preparo mucho para sentirme seguro.' },
-      { value: 'sensitive', label: 'Me siento bastante nervioso.' },
-      { value: 'cautious', label: 'Prefiero que otros tomen la palabra.' }
-    ]
-  },
-  {
-    id: 'hogan_34',
-    text: '¿Con qué afirmación se identifica más?',
-    options: [
-      { value: 'bold', label: 'Es mejor pedir perdón que pedir permiso.' },
-      { value: 'cautious', label: 'Es mejor ir a lo seguro.' },
-      { value: 'dutiful', label: 'Es importante seguir las reglas establecidas.' },
-      { value: 'imaginative', label: 'Las reglas están para romperse si es necesario.' }
-    ]
-  },
-  {
-    id: 'hogan_35',
-    text: 'Ante la ambigüedad y la incertidumbre, me siento:',
-    options: [
-      { value: 'diligent', label: 'Incómodo y prefiero tener claridad.' },
-      { value: 'imaginative', label: 'Estimulado, lo veo como una oportunidad.' },
-      { value: 'dutiful', label: 'Neutral, lo acepto como parte del trabajo.' },
-      { value: 'cautious', label: 'Cauteloso y procedo con cuidado.' }
-    ]
-  },
-  {
-    id: 'hogan_36',
-    text: 'Cuando se trata de tomar la iniciativa:',
-    options: [
-      { value: 'bold', label: 'Suelo ser el primero en ofrecerme voluntario o tomar el mando.' },
-      { value: 'dutiful', label: 'Tomo la iniciativa si veo que nadie más lo hace.' },
-      { value: 'cautious', label: 'Prefiero que me asignen tareas claras.' },
-      { value: 'diligent', label: 'Tomo la iniciativa en áreas donde me siento muy competente.' }
-    ]
-  },
-  {
-    id: 'hogan_37',
-    text: '¿Cuál es su enfoque para el equilibrio entre el trabajo y la vida personal?',
-    options: [
-      { value: 'bold', label: 'El trabajo es una prioridad y a menudo ocupa gran parte de mi tiempo.' },
-      { value: 'diligent', label: 'Intento mantener una separación clara entre el trabajo y mi vida personal.' },
-      { value: 'colorful', label: 'Mi trabajo y mi vida personal están bastante integrados.' },
-      { value: 'dutiful', label: 'Doy prioridad a mi vida personal y me aseguro de que el trabajo no la invada.' }
-    ]
-  },
-  {
-    id: 'hogan_38',
-    text: 'Cuando otras personas están estresadas a mi alrededor, yo:',
-    options: [
-      { value: 'sensitive', label: 'Tiende a afectarme y me estreso también.' },
-      { value: 'dutiful', label: 'Intento calmarlas y ofrecerles mi apoyo.' },
-      { value: 'cautious', label: 'Me mantengo concentrado en mi propio trabajo y no me involucro.' },
-      { value: 'diligent', label: 'Permanezco tranquilo y actúo como una influencia estabilizadora.' }
-    ]
-  },
-  {
-    id: 'hogan_39',
-    text: 'Disfruto más del trabajo cuando:',
-    options: [
-      { value: 'colorful', label: 'Hay un ambiente social y divertido.' },
-      { value: 'bold', label: 'Hay un enfoque intenso en la consecución de objetivos.' },
-      { value: 'diligent', label: 'Hay un ambiente tranquilo y ordenado.' },
-      { value: 'cautious', label: 'Hay un espíritu de curiosidad y aprendizaje.' }
-    ]
-  },
-  {
-    id: 'hogan_40',
-    text: 'Al final de un largo día de trabajo, prefiero:',
-    options: [
-      { value: 'cautious', label: 'Relajarme a solas o con un círculo muy cercano.' },
-      { value: 'colorful', label: 'Salir y socializar con amigos o colegas.' },
-      { value: 'bold', label: 'Hacer algo productivo como ejercicio o un hobby.' },
-      { value: 'imaginative', label: 'Leer o aprender algo nuevo.' }
+      { value: '2', label: 'En desacuerdo' },
+      { value: '1', label: 'Totalmente en desacuerdo' },
+      { value: '4', label: 'De acuerdo' },
+      { value: '5', label: 'Totalmente de acuerdo' },
+      { value: '3', label: 'Ni de acuerdo ni en desacuerdo' }
     ]
   }
 ];
+
+// ===== PREGUNTAS DISC =====
 
 export const DISC_QUESTIONS: Question[] = [
   {
-    id: 'disc_1', 
-    text: 'Normalmente, me considero:',
+    id: 'disc1',
+    text: 'En cada grupo de cuatro opciones, elige una que te describa MÁS y una que te describa MENOS.',
     options: [
-      { value: 'D', label: 'Directo' },
-      { value: 'I', label: 'Entusiasta' },
-      { value: 'S', label: 'Paciente' },
-      { value: 'C', label: 'Preciso' }
+      { value: 'adaptable', label: 'Adaptable' },
+      { value: 'aventurero', label: 'Aventurero' },
+      { value: 'analitico', label: 'Analítico' },
+      { value: 'animado', label: 'Animado' }
     ]
   },
   {
-    id: 'disc_2',
-    text: 'En un equipo, tiendo a ser:',
+    id: 'disc2',
+    text: 'En cada grupo de cuatro opciones, elige una que te describa MÁS y una que te describa MENOS.',
     options: [
-      { value: 'D', label: 'Decisivo' },
-      { value: 'I', label: 'Inspirador' },
-      { value: 'S', label: 'Colaborador' },
-      { value: 'C', label: 'Sistemático' }
+      { value: 'preciso', label: 'Preciso' },
+      { value: 'decisivo', label: 'Decisivo' },
+      { value: 'paciente', label: 'Paciente' },
+      { value: 'convincente', label: 'Convincente' }
     ]
   },
   {
-    id: 'disc_3',
-    text: 'Mi enfoque principal es en:',
+    id: 'disc3',
+    text: 'En cada grupo de cuatro opciones, elige una que te describa MÁS y una que te describa MENOS.',
     options: [
-      { value: 'D', label: 'Los resultados' },
-      { value: 'I', label: 'Las personas' },
-      { value: 'S', label: 'La armonía' },
-      { value: 'C', label: 'Los procedimientos' }
+      { value: 'sistematico', label: 'Sistemático' },
+      { value: 'exigente', label: 'Exigente' },
+      { value: 'tranquilo', label: 'Tranquilo' },
+      { value: 'entusiasta', label: 'Entusiasta' }
     ]
   },
   {
-    id: 'disc_4',
-    text: 'Me motiva:',
+    id: 'disc4',
+    text: 'En cada grupo de cuatro opciones, elige una que te describa MÁS y una que te describa MENOS.',
     options: [
-      { value: 'D', label: 'El desafío' },
-      { value: 'I', label: 'El reconocimiento' },
-      { value: 'S', label: 'La seguridad' },
-      { value: 'C', label: 'La certeza' }
+      { value: 'estable', label: 'Estable' },
+      { value: 'directo', label: 'Directo' },
+      { value: 'cuidadoso', label: 'Cuidadoso' },
+      { value: 'sociable', label: 'Sociable' }
     ]
   },
   {
-    id: 'disc_5',
-    text: 'Bajo presión, me vuelvo:',
+    id: 'disc5',
+    text: 'En cada grupo de cuatro opciones, elige una que te describa MÁS y una que te describa MENOS.',
     options: [
-      { value: 'D', label: 'Demandante' },
-      { value: 'I', label: 'Desorganizado' },
-      { value: 'S', label: 'Complaciente' },
-      { value: 'C', label: 'Crítico' }
+      { value: 'comunicativo', label: 'Comunicativo' },
+      { value: 'cauteloso', label: 'Cauteloso' },
+      { value: 'competitivo', label: 'Competitivo' },
+      { value: 'cooperador', label: 'Cooperador' }
     ]
   },
   {
-    id: 'disc_6',
-    text: 'La gente me describiría como:',
+    id: 'disc6',
+    text: 'En cada grupo de cuatro opciones, elige una que te describa MÁS y una que te describa MENOS.',
     options: [
-      { value: 'D', label: 'Audaz' },
-      { value: 'I', label: 'Sociable' },
-      { value: 'S', label: 'Amable' },
-      { value: 'C', label: 'Cuidadoso' }
+      { value: 'detallista', label: 'Detallista' },
+      { value: 'orientado_resultados', label: 'Orientado a resultados' },
+      { value: 'leal', label: 'Leal' },
+      { value: 'inspirador', label: 'Inspirador' }
     ]
   },
   {
-    id: 'disc_7',
-    text: 'Prefiero un entorno que es:',
+    id: 'disc7',
+    text: 'En cada grupo de cuatro opciones, elige una que te describa MÁS y una que te describa MENOS.',
     options: [
-      { value: 'D', label: 'Competitivo' },
-      { value: 'I', label: 'Animado' },
-      { value: 'S', label: 'Estable' },
-      { value: 'C', label: 'Ordenado' }
+      { value: 'correcto', label: 'Correcto' },
+      { value: 'audaz', label: 'Audaz' },
+      { value: 'predecible', label: 'Predecible' },
+      { value: 'optimista', label: 'Optimista' }
     ]
   },
   {
-    id: 'disc_8',
-    text: 'A la hora de tomar decisiones, soy:',
+    id: 'disc8',
+    text: 'En cada grupo de cuatro opciones, elige una que te describa MÁS y una que te describa MENOS.',
     options: [
-      { value: 'D', label: 'Rápido' },
-      { value: 'I', label: 'Intuitivo' },
-      { value: 'S', label: 'Deliberado' },
-      { value: 'C', label: 'Analítico' }
+      { value: 'perfeccionista', label: 'Perfeccionista' },
+      { value: 'asertivo', label: 'Asertivo' },
+      { value: 'servicial', label: 'Servicial' },
+      { value: 'carismatico', label: 'Carismático' }
     ]
   },
   {
-    id: 'disc_9',
-    text: 'Valoro más:',
+    id: 'disc9',
+    text: 'En cada grupo de cuatro opciones, elige una que te describa MÁS y una que te describa MENOS.',
     options: [
-      { value: 'D', label: 'El control' },
-      { value: 'I', label: 'La influencia' },
-      { value: 'S', label: 'La cooperación' },
-      { value: 'C', label: 'La calidad' }
+      { value: 'logico', label: 'Lógico' },
+      { value: 'independiente', label: 'Independiente' },
+      { value: 'amable', label: 'Amable' },
+      { value: 'influyente', label: 'Influyente' }
     ]
   },
   {
-    id: 'disc_10',
-    text: 'Mi mayor temor es:',
+    id: 'disc10',
+    text: 'En cada grupo de cuatro opciones, elige una que te describa MÁS y una que te describa MENOS.',
     options: [
-      { value: 'D', label: 'Que se aprovechen de mí' },
-      { value: 'I', label: 'El rechazo social' },
-      { value: 'S', label: 'La pérdida de estabilidad' },
-      { value: 'C', label: 'La crítica a mi trabajo' }
+      { value: 'escucha_activamente', label: 'Escucha activamente' },
+      { value: 'toma_control', label: 'Toma el control' },
+      { value: 'sigue_reglas', label: 'Sigue las reglas' },
+      { value: 'genera_entusiasmo', label: 'Genera entusiasmo' }
     ]
   },
   {
-    id: 'disc_11',
-    text: 'Me siento más cómodo cuando:',
+    id: 'disc11',
+    text: 'En cada grupo de cuatro opciones, elige una que te describa MÁS y una que te describa MENOS.',
     options: [
-      { value: 'D', label: 'Estoy al mando' },
-      { value: 'I', label: 'Estoy persuadiendo' },
-      { value: 'S', label: 'Estoy apoyando' },
-      { value: 'C', label: 'Estoy organizando' }
+      { value: 'reservado', label: 'Reservado' },
+      { value: 'valiente', label: 'Valiente' },
+      { value: 'moderado', label: 'Moderado' },
+      { value: 'jugueton', label: 'Juguetón' }
     ]
   },
   {
-    id: 'disc_12',
-    text: 'Mi estilo de comunicación es:',
+    id: 'disc12',
+    text: 'En cada grupo de cuatro opciones, elige una que te describa MÁS y una que te describa MENOS.',
     options: [
-      { value: 'D', label: 'Directo y al grano' },
-      { value: 'I', label: 'Hablador y expresivo' },
-      { value: 'S', label: 'Cálido y que sabe escuchar' },
-      { value: 'C', label: 'Formal y basado en hechos' }
+      { value: 'diplomatico', label: 'Diplomático' },
+      { value: 'resuelto', label: 'Resuelto' },
+      { value: 'metodico', label: 'Metódico' },
+      { value: 'impulsivo', label: 'Impulsivo' }
     ]
   },
   {
-    id: 'disc_13',
-    text: 'Cuando me enfrento a un conflicto, tiendo a:',
+    id: 'disc13',
+    text: 'En cada grupo de cuatro opciones, elige una que te describa MÁS y una que te describa MENOS.',
     options: [
-      { value: 'D', label: 'Afrontarlo directamente' },
-      { value: 'I', label: 'Intentar suavizar las cosas' },
-      { value: 'S', label: 'Evitarlo si es posible' },
-      { value: 'C', label: 'Buscar una solución lógica' }
+      { value: 'investigador', label: 'Investigador' },
+      { value: 'emprendedor', label: 'Emprendedor' },
+      { value: 'amigable', label: 'Amigable' },
+      { value: 'confiado', label: 'Confiado' }
     ]
   },
   {
-    id: 'disc_14',
-    text: 'Soy una persona que:',
+    id: 'disc14',
+    text: 'En cada grupo de cuatro opciones, elige una que te describa MÁS y una que te describa MENOS.',
     options: [
-      { value: 'D', label: 'Toma la iniciativa' },
-      { value: 'I', label: 'Genera entusiasmo' },
-      { value: 'S', label: 'Proporciona estabilidad' },
-      { value: 'C', label: 'Asegura la precisión' }
+      { value: 'organizado', label: 'Organizado' },
+      { value: 'rapido', label: 'Rápido' },
+      { value: 'calmado', label: 'Calmado' },
+      { value: 'animado', label: 'Animado' }
     ]
   },
   {
-    id: 'disc_15',
-    text: 'Ante las reglas, yo:',
+    id: 'disc15',
+    text: 'En cada grupo de cuatro opciones, elige una que te describa MÁS y una que te describa MENOS.',
     options: [
-      { value: 'D', label: 'Las desafío si es necesario' },
-      { value: 'I', label: 'Soy flexible con ellas' },
-      { value: 'S', label: 'Prefiero que existan' },
-      { value: 'C', label: 'Las sigo meticulosamente' }
+      { value: 'exacto', label: 'Exacto' },
+      { value: 'firme', label: 'Firme' },
+      { value: 'constante', label: 'Constante' },
+      { value: 'abierto', label: 'Abierto' }
     ]
   },
   {
-    id: 'disc_16',
-    text: 'Describo mi ritmo como:',
+    id: 'disc16',
+    text: 'En cada grupo de cuatro opciones, elige una que te describa MÁS y una que te describa MENOS.',
     options: [
-      { value: 'D', label: 'Rápido y decisivo' },
-      { value: 'I', label: 'Enérgico y espontáneo' },
-      { value: 'S', label: 'Metódico y constante' },
-      { value: 'C', label: 'Cauteloso y sistemático' }
+      { value: 'disciplinado', label: 'Disciplinado' },
+      { value: 'seguro_si_mismo', label: 'Seguro de sí mismo' },
+      { value: 'fiable', label: 'Fiable' },
+      { value: 'generoso', label: 'Generoso' }
     ]
   },
   {
-    id: 'disc_17',
-    text: 'En un proyecto, me enfoco en:',
+    id: 'disc17',
+    text: 'En cada grupo de cuatro opciones, elige una que te describa MÁS y una que te describa MENOS.',
     options: [
-      { value: 'D', label: 'El objetivo final' },
-      { value: 'I', label: 'La gente involucrada' },
-      { value: 'S', label: 'El proceso paso a paso' },
-      { value: 'C', label: 'Los detalles y estándares' }
+      { value: 'critico', label: 'Crítico' },
+      { value: 'obstinado', label: 'Obstinado' },
+      { value: 'posesivo', label: 'Posesivo' },
+      { value: 'emocional', label: 'Emocional' }
     ]
   },
   {
-    id: 'disc_18',
-    text: 'Soy naturalmente:',
+    id: 'disc18',
+    text: 'En cada grupo de cuatro opciones, elige una que te describa MÁS y una que te describa MENOS.',
     options: [
-      { value: 'D', label: 'Seguro de mí mismo' },
-      { value: 'I', label: 'Optimista' },
-      { value: 'S', label: 'Tranquilo' },
-      { value: 'C', label: 'Perfeccionista' }
+      { value: 'prudente', label: 'Prudente' },
+      { value: 'dominante', label: 'Dominante' },
+      { value: 'gentil', label: 'Gentil' },
+      { value: 'popular', label: 'Popular' }
     ]
   },
   {
-    id: 'disc_19',
-    text: 'Me irrita:',
+    id: 'disc19',
+    text: 'En cada grupo de cuatro opciones, elige una que te describa MÁS y una que te describa MENOS.',
     options: [
-      { value: 'D', label: 'La indecisión' },
-      { value: 'I', label: 'El pesimismo' },
-      { value: 'S', label: 'La impaciencia' },
-      { value: 'C', label: 'El desorden' }
+      { value: 'formal', label: 'Formal' },
+      { value: 'ambicioso', label: 'Ambicioso' },
+      { value: 'pacifista', label: 'Pacifista' },
+      { value: 'espontaneo', label: 'Espontáneo' }
     ]
   },
   {
-    id: 'disc_20',
-    text: 'Cuando lidero, prefiero:',
+    id: 'disc20',
+    text: 'En cada grupo de cuatro opciones, elige una que te describa MÁS y una que te describa MENOS.',
     options: [
-      { value: 'D', label: 'Dar órdenes' },
-      { value: 'I', label: 'Motivar e inspirar' },
-      { value: 'S', label: 'Liderar con el ejemplo' },
-      { value: 'C', label: 'Establecer directrices claras' }
-    ]
-  },
-  {
-    id: 'disc_21',
-    text: 'A los demás les parezco:',
-    options: [
-      { value: 'D', label: 'Exigente' },
-      { value: 'I', label: 'Convincente' },
-      { value: 'S', label: 'Leal' },
-      { value: 'C', label: 'Concienzudo' }
-    ]
-  },
-  {
-    id: 'disc_22',
-    text: 'Mi forma de trabajar es:',
-    options: [
-      { value: 'D', label: 'Independiente' },
-      { value: 'I', label: 'Colaborativa' },
-      { value: 'S', label: 'En equipo' },
-      { value: 'C', label: 'Individual y precisa' }
-    ]
-  },
-  {
-    id: 'disc_23',
-    text: 'Ante el cambio, yo:',
-    options: [
-      { value: 'D', label: 'Lo inicio' },
-      { value: 'I', label: 'Lo acepto con entusiasmo' },
-      { value: 'S', label: 'Me resisto al principio' },
-      { value: 'C', label: 'Necesito un plan para ello' }
-    ]
-  },
-  {
-    id: 'disc_24',
-    text: 'Busco:',
-    options: [
-      { value: 'D', label: 'Poder y autoridad' },
-      { value: 'I', label: 'Popularidad y aprobación' },
-      { value: 'S', label: 'Aceptación y seguridad' },
-      { value: 'C', label: 'Precisión y orden' }
-    ]
-  },
-  {
-    id: 'disc_25',
-    text: 'En una conversación, tiendo a:',
-    options: [
-      { value: 'D', label: 'Hablar más que escuchar' },
-      { value: 'I', label: 'Ser el centro de atención' },
-      { value: 'S', label: 'Escuchar más que hablar' },
-      { value: 'C', label: 'Hacer preguntas específicas' }
-    ]
-  },
-  {
-    id: 'disc_26',
-    text: 'Soy bueno para:',
-    options: [
-      { value: 'D', label: 'Resolver problemas difíciles' },
-      { value: 'I', label: 'Hacer contactos' },
-      { value: 'S', label: 'Seguir instrucciones' },
-      { value: 'C', label: 'Encontrar errores' }
-    ]
-  },
-  {
-    id: 'disc_27',
-    text: 'Necesito que los demás sean:',
-    options: [
-      { value: 'D', label: 'Competentes' },
-      { value: 'I', label: 'Amigables' },
-      { value: 'S', label: 'Cooperativos' },
-      { value: 'C', label: 'Fiables' }
-    ]
-  },
-  {
-    id: 'disc_28',
-    text: 'Mi lema podría ser:',
-    options: [
-      { value: 'D', label: '"Simplemente hazlo"' },
-      { value: 'I', label: '"Divirtámonos"' },
-      { value: 'S', label: '"Llevémonos bien"' },
-      { value: 'C', label: '"Hazlo bien"' }
-    ]
-  },
-  {
-    id: 'disc_29',
-    text: 'Me describen como una persona de:',
-    options: [
-      { value: 'D', label: 'Voluntad fuerte' },
-      { value: 'I', label: 'Mente abierta' },
-      { value: 'S', label: 'Buen corazón' },
-      { value: 'C', label: 'Mente analítica' }
-    ]
-  },
-  {
-    id: 'disc_30',
-    text: 'Cuando me relaciono con otros, soy:',
-    options: [
-      { value: 'D', label: 'Asertivo' },
-      { value: 'I', label: 'Encantador' },
-      { value: 'S', label: 'Discreto' },
-      { value: 'C', label: 'Diplomático' }
-    ]
-  },
-  {
-    id: 'disc_31',
-    text: 'Tiende a ser:',
-    options: [
-      { value: 'D', label: 'Escéptico' },
-      { value: 'I', label: 'Confiado' },
-      { value: 'S', label: 'Apacible' },
-      { value: 'C', label: 'Lógico' }
-    ]
-  },
-  {
-    id: 'disc_32',
-    text: 'En mi escritorio, es probable que encuentres:',
-    options: [
-      { value: 'D', label: 'Solo lo esencial' },
-      { value: 'I', label: 'Fotos e inspiración' },
-      { value: 'S', label: 'Recuerdos y objetos personales' },
-      { value: 'C', label: 'Todo perfectamente organizado' }
-    ]
-  },
-  {
-    id: 'disc_33',
-    text: 'Tiendo a centrarme en:',
-    options: [
-      { value: 'D', label: 'El "qué"' },
-      { value: 'I', label: 'El "quién"' },
-      { value: 'S', label: 'El "cómo"' },
-      { value: 'C', label: 'El "porqué"' }
-    ]
-  },
-  {
-    id: 'disc_34',
-    text: 'Cuando hablo, mi tono es:',
-    options: [
-      { value: 'D', label: 'Fuerte y seguro' },
-      { value: 'I', label: 'Animado y rápido' },
-      { value: 'S', label: 'Suave y tranquilo' },
-      { value: 'C', label: 'Controlado y deliberado' }
-    ]
-  },
-  {
-    id: 'disc_35',
-    text: 'Soy más efectivo en roles que requieren:',
-    options: [
-      { value: 'D', label: 'Liderazgo' },
-      { value: 'I', label: 'Persuasión' },
-      { value: 'S', label: 'Apoyo' },
-      { value: 'C', label: 'Análisis' }
-    ]
-  },
-  {
-    id: 'disc_36',
-    text: 'Aporto al equipo:',
-    options: [
-      { value: 'D', label: 'Dirección' },
-      { value: 'I', label: 'Energía' },
-      { value: 'S', label: 'Estabilidad' },
-      { value: 'C', label: 'Estándares altos' }
-    ]
-  },
-  {
-    id: 'disc_37',
-    text: 'Mi forma de pensar es:',
-    options: [
-      { value: 'D', label: 'Pragmática' },
-      { value: 'I', label: 'Imaginativa' },
-      { value: 'S', label: 'Considerada' },
-      { value: 'C', label: 'Objetiva' }
-    ]
-  },
-  {
-    id: 'disc_38',
-    text: 'Cuando escucho una idea nueva:',
-    options: [
-      { value: 'D', label: 'Pienso en cómo lograrla' },
-      { value: 'I', label: 'Me emociono con las posibilidades' },
-      { value: 'S', label: 'Pienso en cómo afectará a la gente' },
-      { value: 'C', label: 'Pienso en los posibles problemas' }
-    ]
-  },
-  {
-    id: 'disc_39',
-    text: 'La palabra que mejor me describe es:',
-    options: [
-      { value: 'D', label: 'Impulsor' },
-      { value: 'I', label: 'Promotor' },
-      { value: 'S', label: 'Conciliador' },
-      { value: 'C', label: 'Planificador' }
-    ]
-  },
-  {
-    id: 'disc_40',
-    text: 'En general, soy una persona:',
-    options: [
-      { value: 'D', label: 'Orientada a la tarea' },
-      { value: 'I', label: 'Orientada a las personas' },
-      { value: 'S', label: 'Orientada al equipo' },
-      { value: 'C', label: 'Orientada a los detalles' }
+      { value: 'racional', label: 'Racional' },
+      { value: 'energico', label: 'Enérgico' },
+      { value: 'timido', label: 'Tímido' },
+      { value: 'alegre', label: 'Alegre' }
     ]
   }
 ];
 
+// ===== PREGUNTAS COGNITIVAS =====
+
 export const COGNITIVE_TEST_QUESTIONS: Question[] = [
   {
-    id: 'cog_1', 
-    text: 'LÍDER es a EQUIPO como DIRECTOR es a:',
+    id: 'cog1',
+    text: '¿Qué número sigue en la serie: 3, 6, 11, 18, 27, ...?',
     options: [
-      { value: 'orquesta', label: 'Orquesta' },
-      { value: 'pelicula', label: 'Película' },
-      { value: 'actor', label: 'Actor' },
-      { value: 'guion', label: 'Guion' }
-    ]
-  },
-  {
-    id: 'cog_2',
-    text: '¿Qué número sigue en la secuencia? 2, 5, 11, 23, ___',
-    options: [
-      { value: '46', label: '46' },
-      { value: '47', label: '47' },
-      { value: '44', label: '44' },
-      { value: '51', label: '51' }
-    ]
-  },
-  {
-    id: 'cog_3',
-    text: 'Todos los gerentes de esta empresa han completado un curso de liderazgo. María es gerente en esta empresa. Por lo tanto:',
-    options: [
-      { value: 'buena_lider', label: 'María es una buena líder.' },
-      { value: 'todos_gerentes', label: 'Todos los que completan el curso de liderazgo se convierten en gerentes.' },
-      { value: 'maria_curso', label: 'María ha completado un curso de liderazgo.' },
-      { value: 'algunos_no', label: 'Algunos gerentes no han completado el curso.' }
-    ]
-  },
-  {
-    id: 'cog_4',
-    text: 'Un producto cuesta $120. Si se le aplica un descuento del 20% y luego se le añade un impuesto del 10% sobre el precio descontado, ¿cuál es el precio final?',
-    options: [
-      { value: '108', label: '$108.00' },
-      { value: '105.60', label: '$105.60' },
-      { value: '96', label: '$96.00' },
-      { value: '118.80', label: '$118.80' }
-    ]
-  },
-  {
-    id: 'cog_5',
-    text: 'Observe la secuencia de figuras. Una figura rota 90 grados en el sentido de las agujas del reloj en cada paso. Si en el paso 1 la figura es una flecha apuntando hacia ARRIBA (↑), ¿hacia dónde apuntará en el paso 4?',
-    options: [
-      { value: 'arriba', label: 'Arriba (↑)' },
-      { value: 'abajo', label: 'Abajo (↓)' },
-      { value: 'izquierda', label: 'Izquierda (←)' },
-      { value: 'derecha', label: 'Derecha (→)' }
-    ]
-  },
-  {
-    id: 'cog_6',
-    text: 'INNOVAR es a CREAR como OPTIMIZAR es a:',
-    options: [
-      { value: 'destruir', label: 'Destruir' },
-      { value: 'mantener', label: 'Mantener' },
-      { value: 'mejorar', label: 'Mejorar' },
-      { value: 'ignorar', label: 'Ignorar' }
-    ]
-  },
-  {
-    id: 'cog_7',
-    text: 'Si llueve, el suelo se moja. El suelo no está mojado. Por lo tanto:',
-    options: [
-      { value: 'no_llovido', label: 'No ha llovido.' },
-      { value: 'llovio_seco', label: 'Ha llovido, pero el suelo se secó.' },
-      { value: 'va_llover', label: 'Está a punto de llover.' },
-      { value: 'limpio_suelo', label: 'Alguien limpió el suelo.' }
-    ]
-  },
-  {
-    id: 'cog_8',
-    text: '¿Qué número sigue en la secuencia? 90, 83, 76, 69, ___',
-    options: [
-      { value: '62', label: '62' },
-      { value: '63', label: '63' },
-      { value: '61', label: '61' },
-      { value: '60', label: '60' }
-    ]
-  },
-  {
-    id: 'cog_9',
-    text: 'Lea el siguiente párrafo: "La implementación de la nueva estrategia de marketing digital resultó en un aumento del 25% en el tráfico web. Sin embargo, la tasa de conversión de visitantes a clientes solo aumentó un 5%. El equipo de análisis sugiere que, aunque la estrategia atrae a más gente, el mensaje podría no estar alineado con los visitantes que tienen una intención de compra real." ¿Qué se puede concluir del texto?',
-    options: [
-      { value: 'fracaso_total', label: 'La estrategia de marketing fue un fracaso total.' },
-      { value: 'exito_audiencia', label: 'La estrategia tuvo éxito en atraer audiencia pero no en generar ventas proporcionales.' },
-      { value: 'equipo_no_sabe', label: 'El equipo de análisis no sabe por qué la conversión es baja.' },
-      { value: 'mas_dinero', label: 'Se necesita invertir más dinero en la misma estrategia.' }
-    ]
-  },
-  {
-    id: 'cog_10',
-    text: 'Tres impresoras trabajando juntas pueden completar un trabajo en 60 minutos. ¿Cuántos minutos tardarían dos de esas impresoras en hacer el mismo trabajo?',
-    options: [
-      { value: '40', label: '40' },
-      { value: '80', label: '80' },
-      { value: '90', label: '90' },
-      { value: '120', label: '120' }
-    ]
-  },
-  {
-    id: 'cog_11',
-    text: 'Lea el párrafo anterior de nuevo. ¿Cuál sería el siguiente paso más lógico para el equipo?',
-    options: [
-      { value: 'cancelar_estrategia', label: 'Cancelar toda la estrategia de marketing digital.' },
-      { value: 'mas_vendedores', label: 'Contratar a más vendedores.' },
-      { value: 'mas_presupuesto', label: 'Aumentar el presupuesto para atraer aún más tráfico.' },
-      { value: 'revisar_mensaje', label: 'Revisar y ajustar el mensaje de la campaña para atraer a un público más cualificado.' }
-    ]
-  },
-  {
-    id: 'cog_12',
-    text: 'Observe una serie de cajas. La primera tiene 1 punto, la segunda tiene 3 puntos, la tercera tiene 6 puntos, la cuarta tiene 10 puntos. ¿Cuántos puntos tendrá la quinta caja?',
-    options: [
-      { value: '12', label: '12' },
-      { value: '14', label: '14' },
-      { value: '15', label: '15' },
-      { value: '16', label: '16' }
-    ]
-  },
-  {
-    id: 'cog_13',
-    text: 'MÉDICO es a HOSPITAL como CHEF es a:',
-    options: [
-      { value: 'cocina', label: 'Cocina' },
-      { value: 'restaurante', label: 'Restaurante' },
-      { value: 'comida', label: 'Comida' },
-      { value: 'receta', label: 'Receta' }
-    ]
-  },
-  {
-    id: 'cog_14',
-    text: 'En una empresa de 200 empleados, el 60% trabaja en ventas, el 25% en marketing y el resto en administración. ¿Cuántos empleados trabajan en administración?',
-    options: [
-      { value: '30', label: '30' },
-      { value: '25', label: '25' },
+      { value: '42', label: '42' },
+      { value: '38', label: '38' },
       { value: '35', label: '35' },
       { value: '40', label: '40' }
     ]
   },
   {
-    id: 'cog_15',
-    text: 'Todos los proyectos exitosos requieren una planificación cuidadosa. Este proyecto no tuvo una planificación cuidadosa. Por lo tanto:',
+    id: 'cog2',
+    text: '"Barco" es a "mar" como "avión" es a...',
     options: [
-      { value: 'no_exitoso', label: 'Este proyecto no fue exitoso.' },
-      { value: 'podria_exitoso', label: 'Este proyecto podría haber sido exitoso de todas formas.' },
-      { value: 'necesita_planificacion', label: 'Este proyecto necesita más planificación.' },
-      { value: 'todos_fallan', label: 'Todos los proyectos sin planificación fallan.' }
+      { value: 'cielo', label: 'Cielo' },
+      { value: 'aire', label: 'Aire' },
+      { value: 'nubes', label: 'Nubes' },
+      { value: 'aeropuerto', label: 'Aeropuerto' }
     ]
   },
   {
-    id: 'cog_16',
-    text: '¿Qué número sigue en la secuencia? 1, 4, 9, 16, 25, ___',
+    id: 'cog3',
+    text: 'Si reordenas las letras "L A P I S T A", obtienes el nombre de un...',
     options: [
-      { value: '36', label: '36' },
-      { value: '35', label: '35' },
-      { value: '30', label: '30' },
-      { value: '49', label: '49' }
+      { value: 'animal', label: 'Animal' },
+      { value: 'pais', label: 'País' },
+      { value: 'objeto', label: 'Objeto' },
+      { value: 'color', label: 'Color' }
     ]
   },
   {
-    id: 'cog_17',
-    text: 'Una startup tecnológica lanzó su aplicación hace 6 meses. Inicialmente tuvo 10,000 descargas en el primer mes, pero las descargas han disminuido un 15% cada mes desde entonces. Los ingresos por usuario han aumentado un 20% mensual debido a mejores funciones premium. ¿Qué indica esta información?',
+    id: 'cog4',
+    text: 'Juan tiene 4 años más que María, y María tiene 2 años menos que Pedro. Si Pedro tiene 10 años, ¿cuántos tiene Juan?',
     options: [
-      { value: 'app_fracaso', label: 'La aplicación es un fracaso porque las descargas están bajando.' },
-      { value: 'modelo_maduro', label: 'El modelo de negocio está madurando hacia la monetización de usuarios existentes.' },
-      { value: 'necesita_marketing', label: 'Necesitan invertir más en marketing para aumentar descargas.' },
-      { value: 'usuarios_insatisfechos', label: 'Los usuarios están insatisfechos con las nuevas funciones.' }
-    ]
-  },
-  {
-    id: 'cog_18',
-    text: 'Un cubo tiene 6 caras. Si cada cara se divide en 4 secciones iguales, ¿cuántas secciones hay en total?',
-    options: [
-      { value: '24', label: '24' },
-      { value: '20', label: '20' },
-      { value: '18', label: '18' },
+      { value: '14', label: '14' },
+      { value: '12', label: '12' },
+      { value: '10', label: '10' },
       { value: '16', label: '16' }
     ]
   },
   {
-    id: 'cog_19',
-    text: 'OPTIMISTA es a PESIMISTA como PROACTIVO es a:',
+    id: 'cog5',
+    text: '¿Qué figura completa la secuencia?',
     options: [
-      { value: 'reactivo', label: 'Reactivo' },
-      { value: 'pasivo', label: 'Pasivo' },
-      { value: 'negativo', label: 'Negativo' },
-      { value: 'inactivo', label: 'Inactivo' }
+      { value: 'circulo', label: 'Círculo' },
+      { value: 'triangulo', label: 'Triángulo' },
+      { value: 'cuadrado', label: 'Cuadrado' },
+      { value: 'hexagono', label: 'Hexágono' }
     ]
   },
   {
-    id: 'cog_20',
-    text: 'Basándose en el caso de la startup del ejercicio anterior, ¿cuál sería la estrategia más lógica para los próximos 6 meses?',
+    id: 'cog6',
+    text: '"Optimista" es lo opuesto a...',
     options: [
-      { value: 'solo_adquisicion', label: 'Enfocarse únicamente en adquirir nuevos usuarios.' },
-      { value: 'equilibrio_estrategico', label: 'Equilibrar la retención y monetización de usuarios existentes con la adquisición moderada de nuevos usuarios.' },
-      { value: 'eliminar_premium', label: 'Eliminar las funciones premium para atraer más usuarios.' },
-      { value: 'cambiar_modelo', label: 'Cambiar completamente el modelo de negocio.' }
+      { value: 'realista', label: 'Realista' },
+      { value: 'pesimista', label: 'Pesimista' },
+      { value: 'negativo', label: 'Negativo' },
+      { value: 'triste', label: 'Triste' }
+    ]
+  },
+  {
+    id: 'cog7',
+    text: 'Si 5 impresoras imprimen 500 páginas en 5 minutos, ¿cuánto tardaría 1 impresora en imprimir 100 páginas?',
+    options: [
+      { value: '2_minutos', label: '2 minutos' },
+      { value: '1_minuto', label: '1 minuto' },
+      { value: '5_minutos', label: '5 minutos' },
+      { value: '10_minutos', label: '10 minutos' }
+    ]
+  },
+  {
+    id: 'cog8',
+    text: 'Todos los gerentes de esta empresa tienen un título universitario. Sofía es gerente en esta empresa. Por lo tanto, Sofía...',
+    options: [
+      { value: 'es_inteligente', label: 'Es inteligente' },
+      { value: 'tiene_titulo', label: 'Tiene un título universitario' },
+      { value: 'es_exitosa', label: 'Es exitosa' },
+      { value: 'gana_bien', label: 'Gana bien' }
+    ]
+  },
+  {
+    id: 'cog9',
+    text: '¿Qué palabra no pertenece al grupo: Manzana, Plátano, Fresa, Patata?',
+    options: [
+      { value: 'manzana', label: 'Manzana' },
+      { value: 'fresa', label: 'Fresa' },
+      { value: 'patata', label: 'Patata' },
+      { value: 'platano', label: 'Plátano' }
+    ]
+  },
+  {
+    id: 'cog10',
+    text: 'Un producto cuesta $120 después de un descuento del 20%. ¿Cuál era el precio original?',
+    options: [
+      { value: '140', label: '$140' },
+      { value: '150', label: '$150' },
+      { value: '160', label: '$160' },
+      { value: '144', label: '$144' }
+    ]
+  },
+  {
+    id: 'cog11',
+    text: 'Encuentra la analogía: "Martillo" es a "Clavo" como "Destornillador" es a...',
+    options: [
+      { value: 'tuerca', label: 'Tuerca' },
+      { value: 'tornillo', label: 'Tornillo' },
+      { value: 'herramienta', label: 'Herramienta' },
+      { value: 'madera', label: 'Madera' }
+    ]
+  },
+  {
+    id: 'cog12',
+    text: 'Continúa el patrón: A1, B2, C3, ...',
+    options: [
+      { value: 'E5', label: 'E5' },
+      { value: 'D4', label: 'D4' },
+      { value: 'F6', label: 'F6' },
+      { value: 'D5', label: 'D5' }
+    ]
+  },
+  {
+    id: 'cog13',
+    text: 'Si un coche viaja a 60 km/h, ¿qué distancia recorrerá en 90 minutos?',
+    options: [
+      { value: '90_km', label: '90 km' },
+      { value: '120_km', label: '120 km' },
+      { value: '80_km', label: '80 km' },
+      { value: '100_km', label: '100 km' }
+    ]
+  },
+  {
+    id: 'cog14',
+    text: '¿Qué viene después? Círculo, Triángulo, Cuadrado, ...',
+    options: [
+      { value: 'hexagono', label: 'Hexágono' },
+      { value: 'pentagono', label: 'Pentágono' },
+      { value: 'octogono', label: 'Octógono' },
+      { value: 'rombo', label: 'Rombo' }
+    ]
+  },
+  {
+    id: 'cog15',
+    text: '"Persuadir" es sinónimo de...',
+    options: [
+      { value: 'obligar', label: 'Obligar' },
+      { value: 'convencer', label: 'Convencer' },
+      { value: 'mentir', label: 'Mentir' },
+      { value: 'engañar', label: 'Engañar' }
+    ]
+  },
+  {
+    id: 'cog16',
+    text: 'Un equipo de 6 personas construye un muro en 4 días. ¿Cuántas personas se necesitarían para construir el mismo muro en 3 días?',
+    options: [
+      { value: '9', label: '9' },
+      { value: '8', label: '8' },
+      { value: '7', label: '7' },
+      { value: '10', label: '10' }
+    ]
+  },
+  {
+    id: 'cog17',
+    text: 'Si el día de mañana fuera ayer, hoy sería viernes. ¿Qué día es hoy realmente?',
+    options: [
+      { value: 'domingo', label: 'Domingo' },
+      { value: 'sabado', label: 'Sábado' },
+      { value: 'lunes', label: 'Lunes' },
+      { value: 'jueves', label: 'Jueves' }
+    ]
+  },
+  {
+    id: 'cog18',
+    text: '¿Cuántos cubos hay en la figura?',
+    options: [
+      { value: '24', label: '24' },
+      { value: '27', label: '27' },
+      { value: '30', label: '30' },
+      { value: '25', label: '25' }
+    ]
+  },
+  {
+    id: 'cog19',
+    text: '"Efímero" significa...',
+    options: [
+      { value: 'eterno', label: 'Eterno' },
+      { value: 'temporal', label: 'Temporal' },
+      { value: 'grande', label: 'Grande' },
+      { value: 'pequeño', label: 'Pequeño' }
+    ]
+  },
+  {
+    id: 'cog20',
+    text: 'El costo de un artículo aumenta un 10% y luego disminuye un 10%. ¿El precio final es mayor, menor o igual al original?',
+    options: [
+      { value: 'igual', label: 'Igual' },
+      { value: 'menor', label: 'Menor' },
+      { value: 'mayor', label: 'Mayor' },
+      { value: 'depende', label: 'Depende del precio original' }
     ]
   }
 ];
+
+// ===== DILEMAS ÉTICOS =====
 
 export const ETHICAL_DILEMMAS: EthicalDilemma[] = [
   {
-    id: 'ethical_1', 
-    scenario: 'Descubre un archivo en un servidor compartido, accesible por error, que contiene los salarios de todos los empleados de su departamento, incluido el de su jefe. Sabe que algunos compañeros sienten que están mal pagados.',
-    mainQuestion: '¿Qué haría en esta situación?',
-    followUpQuestions: [
-      '¿Qué riesgos ve en su acción elegida y cómo los mitigaría?',
-      '¿Su respuesta cambiaría si la información fuera sobre próximos despidos en lugar de salarios? ¿Por qué?'
+    id: 'eth1',
+    title: 'Dilema de Lealtad vs. Integridad',
+    scenario: 'Descubres que un colega cercano ha estado usando la tarjeta de crédito de la empresa para pequeños gastos personales.',
+    options: [
+      'Reportar inmediatamente a Recursos Humanos',
+      'Hablar primero con el colega para que se autorreporten',
+      'Ignorar la situación ya que son gastos menores',
+      'Buscar orientación de un supervisor de confianza'
     ]
   },
   {
-    id: 'ethical_2',
-    scenario: 'En una reunión importante con la alta dirección, su jefe presenta una idea suya como si fuera propia y recibe grandes elogios. Su jefe tiene una influencia significativa en su carrera.',
-    mainQuestion: '¿Qué haría en esta situación?',
-    followUpQuestions: [
-      '¿Cómo equilibraría la necesidad de recibir crédito por su trabajo con el riesgo de dañar su relación con su jefe?',
-      '¿Qué haría para asegurarse de que esto no vuelva a suceder en el futuro?'
+    id: 'eth2',
+    title: 'Conflicto de Intereses',
+    scenario: 'Un cliente importante te ofrece un regalo caro como agradecimiento por un proyecto exitoso. La política de la empresa es ambigua al respecto.',
+    options: [
+      'Aceptar el regalo ya que fue bien ganado',
+      'Rechazar cortésmente el regalo',
+      'Consultar con Recursos Humanos antes de decidir',
+      'Aceptar pero reportar el regalo a la empresa'
     ]
   },
   {
-    id: 'ethical_3',
-    scenario: 'La empresa está eligiendo un nuevo proveedor. Uno de los finalistas es una pequeña empresa propiedad de un buen amigo suyo. Su recomendación tiene mucho peso en la decisión final. Cree objetivamente que la empresa de su amigo es una buena opción, pero no necesariamente la mejor ni la más barata.',
-    mainQuestion: '¿Qué haría en esta situación?',
-    followUpQuestions: [
-      '¿Cómo gestionaría la transparencia en esta situación con su equipo directivo?',
-      '¿Qué principios éticos guían su enfoque en esta situación?'
+    id: 'eth3',
+    title: 'Transparencia vs. Imagen Personal',
+    scenario: 'Te das cuenta de que un informe que presentaste a la dirección contiene un error significativo que te hace quedar bien.',
+    options: [
+      'Corregir inmediatamente el error y notificar a todos los afectados',
+      'Corregir discretamente en futuras versiones',
+      'Mantener el error ya que nadie más lo ha notado',
+      'Mencionar casualmente la corrección en la próxima reunión'
     ]
   },
   {
-    id: 'ethical_4',
-    scenario: 'Ve a un compañero de alto rendimiento haciendo un comentario inapropiado y ofensivo a un miembro más junior del equipo. El miembro junior parece visiblemente incómodo pero no dice nada. Sabe que reportarlo podría iniciar un proceso complicado de RRHH y afectar la dinámica del equipo.',
-    mainQuestion: '¿Qué haría en esta situación?',
-    followUpQuestions: [
-      '¿Cuál es su responsabilidad principal en esta situación: hacia el miembro junior, hacia el equipo o hacia la empresa?',
-      'Si decidiera intervenir, ¿cómo lo haría para maximizar un resultado positivo y minimizar las consecuencias negativas?'
+    id: 'eth4',
+    title: 'Presión de Autoridad',
+    scenario: 'Tu jefe te pide que "maquilles" ligeramente los números de un reporte para que el departamento se vea mejor.',
+    options: [
+      'Rechazar directamente la solicitud',
+      'Proponer alternativas para mejorar la presentación sin alterar datos',
+      'Cumplir la solicitud para mantener buena relación',
+      'Buscar una segunda opinión de otro supervisor'
     ]
   },
   {
-    id: 'ethical_5',
-    scenario: 'Está a punto de cumplir una fecha límite crucial para un cliente importante. Se da cuenta de que hay un error de calidad menor en el producto/servicio. Corregirlo significaría no cumplir con la fecha de entrega, lo que molestaría al cliente. Ignorarlo podría dañar la reputación de la empresa a largo plazo si se descubre.',
-    mainQuestion: '¿Qué haría en esta situación?',
-    followUpQuestions: [
-      '¿Qué factores son los más importantes para usted al tomar esta decisión?',
-      '¿Cómo comunicaría su decisión al cliente y a su equipo?'
+    id: 'eth5',
+    title: 'Confidencialidad vs. Lealtad',
+    scenario: 'Un miembro de tu equipo te confiesa que está buscando trabajo en la competencia.',
+    options: [
+      'Reportar inmediatamente a Recursos Humanos',
+      'Mantener la confidencialidad pero monitorear su trabajo',
+      'Intentar convencerlo de que se quede',
+      'Apoyar su búsqueda pero proteger información sensible'
+    ]
+  },
+  {
+    id: 'eth6',
+    title: 'Equidad Salarial',
+    scenario: 'Tienes acceso a información confidencial de salarios y ves que ganas menos que un colega con menos experiencia y responsabilidades.',
+    options: [
+      'Confrontar directamente a tu jefe sobre la inequidad',
+      'Buscar otra oportunidad laboral sin mencionar el tema',
+      'Solicitar una reunión formal para discutir tu compensación',
+      'Ignorar la información ya que es confidencial'
+    ]
+  },
+  {
+    id: 'eth7',
+    title: 'Corrupción en Procesos',
+    scenario: 'Un proveedor te ofrece una comisión personal si lo eliges para un contrato importante.',
+    options: [
+      'Rechazar inmediatamente y reportar el intento de soborno',
+      'Rechazar pero mantener al proveedor en consideración',
+      'Aceptar la comisión ya que no afecta tu juicio profesional',
+      'Negociar que la comisión vaya a la empresa en lugar de a ti'
+    ]
+  },
+  {
+    id: 'eth8',
+    title: 'Información Privilegiada',
+    scenario: 'Durante una entrevista de trabajo, un candidato revela información confidencial de su empresa actual.',
+    options: [
+      'Detener la entrevista y explicar que no puede compartir esa información',
+      'Escuchar pero no usar la información en tu evaluación',
+      'Aprovechar la información para beneficio de tu empresa',
+      'Continuar la entrevista normalmente'
+    ]
+  },
+  {
+    id: 'eth9',
+    title: 'Calidad vs. Plazos',
+    scenario: 'Sabes que un producto que está a punto de lanzarse tiene un pequeño defecto que no afecta la seguridad, pero podría decepcionar a los clientes.',
+    options: [
+      'Retrasar el lanzamiento hasta corregir el defecto',
+      'Lanzar con el defecto pero ofrecer actualizaciones gratuitas',
+      'Lanzar normalmente ya que no afecta la seguridad',
+      'Informar a los clientes sobre el defecto menor antes del lanzamiento'
+    ]
+  },
+  {
+    id: 'eth10',
+    title: 'Rumores y Chismes',
+    scenario: 'Un compañero de trabajo está difundiendo un rumor falso y dañino sobre otro miembro del equipo.',
+    options: [
+      'Confrontar directamente al que difunde el rumor',
+      'Informar a la persona afectada sobre el rumor',
+      'Reportar la situación a Recursos Humanos',
+      'Intentar corregir el rumor cuando lo escuches'
+    ]
+  },
+  {
+    id: 'eth11',
+    title: 'Competencia vs. Honestidad',
+    scenario: 'Te piden que lideres un proyecto para el que no te sientes completamente cualificado.',
+    options: [
+      'Aceptar y aprender sobre la marcha',
+      'Declinar honestamente explicando tus limitaciones',
+      'Aceptar pero buscar ayuda externa sin informarlo',
+      'Aceptar y formar un equipo que complemente tus debilidades'
+    ]
+  },
+  {
+    id: 'eth12',
+    title: 'Nepotismo vs. Meritocracia',
+    scenario: 'Un amigo te pide que recomiendes a su primo para un puesto en tu equipo, pero sabes que no es el mejor candidato.',
+    options: [
+      'Rechazar la recomendación explicando tus criterios',
+      'Hacer la recomendación pero ser honesto sobre las limitaciones',
+      'Recomendar al primo para mantener la amistad',
+      'Sugerir otros puestos donde el primo podría ser más adecuado'
+    ]
+  },
+  {
+    id: 'eth13',
+    title: 'Información Privilegiada vs. Lealtad',
+    scenario: 'La empresa está implementando un nuevo sistema que automatizará el trabajo de varios de tus compañeros. Tú lo sabes antes que ellos.',
+    options: [
+      'Mantener la confidencialidad hasta el anuncio oficial',
+      'Advertir discretamente a los afectados',
+      'Sugerir a la dirección que comunique pronto',
+      'Ayudar a los afectados a prepararse sin revelar información específica'
+    ]
+  },
+  {
+    id: 'eth14',
+    title: 'Autoridad vs. Integridad',
+    scenario: 'Ves a tu jefe llevándose a casa material de oficina en grandes cantidades.',
+    options: [
+      'Confrontar directamente a tu jefe',
+      'Reportar anónimamente a una línea ética',
+      'Ignorar la situación para evitar conflictos',
+      'Documentar los incidentes antes de tomar acción'
+    ]
+  },
+  {
+    id: 'eth15',
+    title: 'Servicio al Cliente vs. Honestidad',
+    scenario: 'Un cliente te miente sobre un problema para intentar obtener un reembolso que no le corresponde.',
+    options: [
+      'Denegar el reembolso explicando las políticas',
+      'Otorgar el reembolso para mantener la relación',
+      'Investigar más a fondo antes de decidir',
+      'Ofrecer una solución alternativa que beneficie a ambas partes'
+    ]
+  },
+  {
+    id: 'eth16',
+    title: 'Calidad vs. Presión de Tiempo',
+    scenario: 'Para cumplir un plazo, te das cuenta de que tendrías que saltarte un paso importante del control de calidad.',
+    options: [
+      'Cumplir el plazo saltándose el control de calidad',
+      'Retrasar la entrega para mantener la calidad',
+      'Buscar una extensión del plazo explicando la situación',
+      'Implementar un control de calidad reducido pero funcional'
+    ]
+  },
+  {
+    id: 'eth17',
+    title: 'Diversidad e Inclusión',
+    scenario: 'Un miembro del equipo, que es de un grupo minoritario, hace un comentario que podría ser interpretado como ofensivo, pero nadie más parece haberlo notado.',
+    options: [
+      'Abordar el tema privadamente con la persona',
+      'Ignorar el comentario ya que nadie más reaccionó',
+      'Hacer un comentario general sobre respeto en el equipo',
+      'Reportar el incidente a Recursos Humanos'
+    ]
+  },
+  {
+    id: 'eth18',
+    title: 'Responsabilidad Interdepartamental',
+    scenario: 'Eres testigo de que un gerente de otro departamento acosa verbalmente a un miembro de su equipo.',
+    options: [
+      'Intervenir inmediatamente en la situación',
+      'Reportar el incidente a Recursos Humanos',
+      'Hablar privadamente con la víctima para ofrecer apoyo',
+      'Documentar el incidente y buscar orientación'
+    ]
+  },
+  {
+    id: 'eth19',
+    title: 'Sostenibilidad vs. Costos',
+    scenario: 'La empresa promueve una iniciativa de sostenibilidad, pero descubres que un departamento está incumpliendo las normas para ahorrar costos.',
+    options: [
+      'Reportar inmediatamente el incumplimiento',
+      'Hablar con el departamento para entender sus razones',
+      'Proponer soluciones que balanceen sostenibilidad y costos',
+      'Ignorar la situación ya que no es tu departamento'
+    ]
+  },
+  {
+    id: 'eth20',
+    title: 'Ventaja Competitiva vs. Fair Play',
+    scenario: 'Te enteras de que un competidor está a punto de quebrar, una información que podrías usar para ganar una gran cuenta.',
+    options: [
+      'Usar la información para ganar la cuenta',
+      'No usar la información y competir normalmente',
+      'Informar al cliente sobre la situación del competidor',
+      'Verificar la información antes de tomar cualquier acción'
     ]
   }
 ];
 
-// Intro texts for each assessment
-export const SITUATIONAL_LEADERSHIP_INTRO = `
-<p>La <strong>Evaluación de Liderazgo Situacional</strong> está diseñada para identificar su estilo natural de liderazgo y cómo adapta su enfoque según las diferentes situaciones y necesidades de su equipo.</p>
+// ===== LÓGICA DE SCORING =====
 
-<p>Esta evaluación se basa en el modelo de Liderazgo Situacional desarrollado por Ken Blanchard y Paul Hersey, que identifica cuatro estilos principales:</p>
+// Liderazgo Situacional - Clave de respuestas correctas
+export const SITUATIONAL_SCORING_KEY: Record<string, string> = {
+  'sit1': 'dirigir',    // M1 - Nuevo entusiasta
+  'sit2': 'apoyar',     // M3 - Experto inseguro
+  'sit3': 'apoyar',     // M3 - Equipo hábil pero desmotivado
+  'sit4': 'delegar',    // M4 - Experto autónomo
+  'sit5': 'entrenar',   // M2 - Algo de habilidad pero frustrado
+  'sit6': 'apoyar',     // M3 - Capaz pero inseguro
+  'sit7': 'dirigir',    // M1 - Crisis requiere control inmediato
+  'sit8': 'entrenar',   // M2 - Junior con algo de experiencia
+  'sit9': 'apoyar',     // M3 - Expertos que necesitan colaborar
+  'sit10': 'entrenar',  // M2 - Hábil pero desmotivado
+  'sit11': 'dirigir',   // M1 - Nuevo abrumado
+  'sit12': 'delegar',   // M4 - Senior con idea propia
+  'sit13': 'apoyar',    // M3 - Competentes pero estancados
+  'sit14': 'apoyar',    // M3 - Experto con problema temporal
+  'sit15': 'apoyar',    // M3 - Competentes pero resistentes
+  'sit16': 'entrenar',  // M2 - Básico pero exceso de confianza
+  'sit17': 'delegar',   // M4 - Ejecutando perfectamente
+  'sit18': 'apoyar',    // M3 - Capaz pero desmotivado
+  'sit19': 'entrenar',  // M2 - Experiencia pero presión alta
+  'sit20': 'delegar'    // M4 - Equipo de alto rendimiento autónomo
+};
 
-<ul>
-  <li><strong>Dirigir (S1):</strong> Alto en dirección, bajo en apoyo - Para empleados nuevos o sin experiencia</li>
-  <li><strong>Entrenar (S2):</strong> Alto en dirección y apoyo - Para empleados con alguna competencia pero baja confianza</li>
-  <li><strong>Apoyar (S3):</strong> Bajo en dirección, alto en apoyo - Para empleados competentes pero con motivación variable</li>
-  <li><strong>Delegar (S4):</strong> Bajo en dirección y apoyo - Para empleados altamente competentes y motivados</li>
-</ul>
+// Hogan - Escalas de riesgo
+export const HOGAN_RISK_SCALES: Record<string, string[]> = {
+  'Diligente': ['hogan5', 'hogan15'],           // Perfeccionismo paralizante
+  'Audaz': ['hogan10', 'hogan18'],              // Arrogancia, no escuchar
+  'Complaciente': ['hogan3', 'hogan11', 'hogan17'], // Evitar conflictos
+  'Escéptico': ['hogan12'],                     // Desconfianza excesiva
+  'Controlador': ['hogan6', 'hogan13'],         // Micromanagement
+  'Reservado': ['hogan7'],                      // Falta de comunicación
+  'Impulsivo': ['hogan8', 'hogan14'],           // Decisiones apresuradas
+  'Cauteloso': ['hogan9', 'hogan19'],           // Aversión al riesgo
+  'Directo': ['hogan16'],                       // Comunicación brusca
+  'Intenso': ['hogan1', 'hogan20']              // Presión excesiva
+};
 
-<p><strong>Instrucciones:</strong> Para cada situación presentada, seleccione la respuesta que mejor represente cómo actuaría naturalmente. No hay respuestas correctas o incorrectas; buscamos entender su estilo auténtico de liderazgo.</p>
+// DISC - Mapeo de palabras a factores
+export const DISC_WORD_MAPPING: Record<string, string> = {
+  // Factor D (Dominancia)
+  'aventurero': 'D', 'decisivo': 'D', 'exigente': 'D', 'directo': 'D', 'competitivo': 'D',
+  'orientado_resultados': 'D', 'audaz': 'D', 'asertivo': 'D', 'independiente': 'D',
+  'toma_control': 'D', 'valiente': 'D', 'resuelto': 'D', 'emprendedor': 'D', 'rapido': 'D',
+  'firme': 'D', 'seguro_si_mismo': 'D', 'obstinado': 'D', 'dominante': 'D', 'ambicioso': 'D',
+  'energico': 'D',
 
-<p><em>Tiempo estimado: 15-20 minutos</em></p>
-`;
+  // Factor I (Influencia)
+  'animado': 'I', 'convincente': 'I', 'entusiasta': 'I', 'sociable': 'I', 'comunicativo': 'I',
+  'inspirador': 'I', 'optimista': 'I', 'carismatico': 'I', 'influyente': 'I',
+  'genera_entusiasmo': 'I', 'jugueton': 'I', 'impulsivo': 'I', 'confiado': 'I',
+  'animado': 'I', 'abierto': 'I', 'generoso': 'I', 'emocional': 'I', 'popular': 'I',
+  'espontaneo': 'I', 'alegre': 'I',
 
-export const HOGAN_STYLE_INTRO = `
-<p>La <strong>Evaluación de Estilo de Liderazgo Hogan</strong> explora las características fundamentales de su personalidad en el contexto profesional y cómo estas influyen en su estilo de liderazgo y trabajo en equipo.</p>
+  // Factor S (Estabilidad)
+  'adaptable': 'S', 'paciente': 'S', 'tranquilo': 'S', 'estable': 'S', 'cooperador': 'S',
+  'leal': 'S', 'predecible': 'S', 'servicial': 'S', 'amable': 'S', 'escucha_activamente': 'S',
+  'moderado': 'S', 'metodico': 'S', 'amigable': 'S', 'calmado': 'S', 'constante': 'S',
+  'fiable': 'S', 'posesivo': 'S', 'gentil': 'S', 'pacifista': 'S', 'timido': 'S',
 
-<p>Esta evaluación examina siete dimensiones clave de la personalidad profesional:</p>
+  // Factor C (Conformidad)
+  'analitico': 'C', 'preciso': 'C', 'sistematico': 'C', 'cuidadoso': 'C', 'cauteloso': 'C',
+  'detallista': 'C', 'correcto': 'C', 'perfeccionista': 'C', 'logico': 'C', 'sigue_reglas': 'C',
+  'reservado': 'C', 'diplomatico': 'C', 'investigador': 'C', 'organizado': 'C', 'exacto': 'C',
+  'disciplinado': 'C', 'critico': 'C', 'prudente': 'C', 'formal': 'C', 'racional': 'C'
+};
 
-<ul>
-  <li><strong>Audaz (Bold):</strong> Confianza, asertividad y disposición a tomar riesgos</li>
-  <li><strong>Cauteloso (Cautious):</strong> Prudencia, análisis cuidadoso y gestión de riesgos</li>
-  <li><strong>Colorido (Colorful):</strong> Sociabilidad, optimismo y habilidades interpersonales</li>
-  <li><strong>Diligente (Diligent):</strong> Organización, atención al detalle y seguimiento de procesos</li>
-  <li><strong>Servicial (Dutiful):</strong> Lealtad, cooperación y orientación al servicio</li>
-  <li><strong>Imaginativo (Imaginative):</strong> Creatividad, innovación y pensamiento estratégico</li>
-  <li><strong>Sensible (Sensitive):</strong> Reactividad emocional y sensibilidad interpersonal</li>
-</ul>
+// Cognitivo - Respuestas correctas
+export const COGNITIVE_ANSWER_KEY: Record<string, string> = {
+  'cog1': '38',           // Serie: +3, +5, +7, +9, +11
+  'cog2': 'aire',         // Analogía de medio de transporte
+  'cog3': 'pais',         // LAPISTA = PALISTA (anagrama)
+  'cog4': '12',           // Juan = María + 4, María = Pedro - 2, Pedro = 10, entonces Juan = 12
+  'cog5': 'triangulo',    // Secuencia de figuras geométricas
+  'cog6': 'pesimista',    // Antónimo directo
+  'cog7': '1_minuto',     // 5 impresoras = 500 páginas en 5 min, 1 impresora = 100 páginas en 1 min
+  'cog8': 'tiene_titulo', // Lógica deductiva
+  'cog9': 'patata',       // Única que no es fruta
+  'cog10': '150',         // 120 = 80% del original, entonces original = 150
+  'cog11': 'tornillo',    // Analogía de herramienta-objeto
+  'cog12': 'D4',          // Patrón alfabético-numérico
+  'cog13': '90_km',       // 60 km/h × 1.5 h = 90 km
+  'cog14': 'pentagono',   // Secuencia por número de lados: 0, 3, 4, 5
+  'cog15': 'convencer',   // Sinónimo más cercano
+  'cog16': '8',           // Regla de tres: 6×4 = 24 persona-días, 24÷3 = 8 personas
+  'cog17': 'sabado',      // Lógica temporal
+  'cog18': '27',          // Cubo 3×3×3
+  'cog19': 'temporal',    // Definición de efímero
+  'cog20': 'menor'        // 1.10 × 0.90 = 0.99 (menor que 1)
+};
 
-<p><strong>Instrucciones:</strong> Responda cada pregunta basándose en cómo se comporta típicamente en situaciones de trabajo. Sea honesto y seleccione la opción que mejor lo describa, incluso si no es la respuesta "ideal".</p>
+// Ético - Códigos de comportamiento
+export const ETHICAL_BEHAVIOR_CODES: Record<string, { integrity: number; risk: string[] }> = {
+  // Códigos de integridad: +2 = Alta, +1 = Media, 0 = Neutral, -1 = Baja, -2 = Muy Baja
+  // Códigos de riesgo: etiquetas de comportamiento
+  'report_immediately': { integrity: 2, risk: ['Alta Integridad', 'Cumplimiento'] },
+  'confront_directly': { integrity: 1, risk: ['Confrontación', 'Transparencia'] },
+  'ignore_situation': { integrity: -2, risk: ['Evasión', 'Complicidad'] },
+  'seek_guidance': { integrity: 1, risk: ['Prudencia', 'Consulta'] },
+  'document_evidence': { integrity: 2, risk: ['Diligencia', 'Protección Legal'] },
+  'warn_colleague': { integrity: 0, risk: ['Lealtad Personal', 'Riesgo Compartido'] }
+};
 
-<p><em>Tiempo estimado: 20-25 minutos</em></p>
-`;
+// Función para calcular score de liderazgo situacional
+export const calculateSituationalScore = (answers: AnswerSet): {
+  totalScore: number;
+  percentage: number;
+  styleDistribution: Record<string, number>;
+  flexibilityIndex: number;
+} => {
+  let correctAnswers = 0;
+  const styleCount = { dirigir: 0, entrenar: 0, apoyar: 0, delegar: 0 };
 
-export const DISC_INTRO = `
-<p>La <strong>Evaluación de Perfil DISC</strong> identifica su estilo de comportamiento predominante y cómo interactúa con otros en el entorno laboral.</p>
+  Object.entries(answers).forEach(([questionId, answer]) => {
+    if (SITUATIONAL_SCORING_KEY[questionId] === answer) {
+      correctAnswers++;
+    }
+    if (styleCount.hasOwnProperty(answer)) {
+      styleCount[answer as keyof typeof styleCount]++;
+    }
+  });
 
-<p>El modelo DISC evalúa cuatro estilos principales de comportamiento:</p>
+  const totalQuestions = Object.keys(SITUATIONAL_SCORING_KEY).length;
+  const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+  
+  // Calcular índice de flexibilidad (qué tan balanceado está entre los 4 estilos)
+  const styleValues = Object.values(styleCount);
+  const maxStyle = Math.max(...styleValues);
+  const minStyle = Math.min(...styleValues);
+  const flexibilityIndex = Math.round(((4 - (maxStyle - minStyle)) / 4) * 100);
 
-<ul>
-  <li><strong>Dominancia (D):</strong> Orientado a resultados, directo, decidido y competitivo</li>
-  <li><strong>Influencia (I):</strong> Sociable, optimista, persuasivo y orientado a las personas</li>
-  <li><strong>Estabilidad (S):</strong> Paciente, leal, colaborativo y orientado al equipo</li>
-  <li><strong>Cumplimiento (C):</strong> Analítico, preciso, sistemático y orientado a la calidad</li>
-</ul>
+  return {
+    totalScore: correctAnswers,
+    percentage,
+    styleDistribution: styleCount,
+    flexibilityIndex
+  };
+};
 
-<p>Cada persona tiene una combinación única de estos estilos, con uno o dos que tienden a ser dominantes.</p>
+// Función para calcular scores Hogan
+export const calculateHoganScores = (answers: AnswerSet): Record<string, number> => {
+  const scaleScores: Record<string, number[]> = {};
 
-<p><strong>Instrucciones:</strong> Para cada afirmación, seleccione la opción que mejor lo describa en la mayoría de las situaciones laborales. Responda instintivamente, basándose en su comportamiento natural.</p>
+  Object.entries(HOGAN_RISK_SCALES).forEach(([scale, questionIds]) => {
+    scaleScores[scale] = questionIds.map(qId => parseInt(answers[qId] || '3'));
+  });
 
-<p><em>Tiempo estimado: 15-20 minutos</em></p>
-`;
+  const averageScores: Record<string, number> = {};
+  Object.entries(scaleScores).forEach(([scale, scores]) => {
+    averageScores[scale] = scores.reduce((a, b) => a + b, 0) / scores.length;
+  });
 
-export const COGNITIVE_ABILITY_INTRO = `
-<p>La <strong>Evaluación de Habilidades Cognitivas</strong> mide diferentes aspectos de su capacidad intelectual y de resolución de problemas en contextos profesionales.</p>
+  return averageScores;
+};
 
-<p>Esta evaluación examina cinco áreas clave:</p>
+// Función para calcular scores DISC
+export const calculateDiscScores = (answers: AnswerSet): Record<string, number> => {
+  const scores = { D: 0, I: 0, S: 0, C: 0 };
 
-<ul>
-  <li><strong>Razonamiento Verbal:</strong> Comprensión de conceptos expresados en palabras y analogías</li>
-  <li><strong>Razonamiento Numérico:</strong> Habilidad para trabajar con números, patrones y cálculos</li>
-  <li><strong>Razonamiento Lógico:</strong> Capacidad para analizar argumentos y llegar a conclusiones válidas</li>
-  <li><strong>Comprensión Lectora:</strong> Análisis e interpretación de información escrita compleja</li>
-  <li><strong>Razonamiento Espacial:</strong> Visualización y manipulación mental de objetos y patrones</li>
-</ul>
+  Object.values(answers).forEach(answer => {
+    const factor = DISC_WORD_MAPPING[answer];
+    if (factor && scores.hasOwnProperty(factor)) {
+      scores[factor as keyof typeof scores]++;
+    }
+  });
 
-<p><strong>Instrucciones:</strong> Lea cada pregunta cuidadosamente y seleccione la mejor respuesta. Algunas preguntas pueden requerir cálculos o análisis detallado. Tómese el tiempo necesario para pensar, pero confíe en su primera impresión.</p>
+  return scores;
+};
 
-<p><em>Tiempo estimado: 25-30 minutos</em></p>
-`;
+// Función para calcular score cognitivo
+export const calculateCognitiveScore = (answers: AnswerSet): {
+  totalCorrect: number;
+  totalQuestions: number;
+  percentage: number;
+  estimatedIQ: number;
+} => {
+  let correctAnswers = 0;
+  const totalQuestions = Object.keys(COGNITIVE_ANSWER_KEY).length;
 
-export const ETHICS_INTRO = `
-<p>La <strong>Evaluación de Ética y Valores Profesionales</strong> explora cómo aborda dilemas éticos complejos en el entorno laboral y qué principios guían su toma de decisiones.</p>
+  Object.entries(answers).forEach(([questionId, answer]) => {
+    if (COGNITIVE_ANSWER_KEY[questionId] === answer) {
+      correctAnswers++;
+    }
+  });
 
-<p>Esta sección presenta escenarios realistas que pueden ocurrir en cualquier organización, donde:</p>
+  const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+  
+  // Estimación de IQ basada en percentil (simplificada)
+  const estimatedIQ = Math.round(85 + (percentage * 0.3));
 
-<ul>
-  <li>No hay una respuesta "correcta" única</li>
-  <li>Múltiples valores pueden estar en conflicto</li>
-  <li>Las decisiones tienen consecuencias para diferentes stakeholders</li>
-  <li>Se requiere equilibrar intereses personales, del equipo y organizacionales</li>
-</ul>
+  return {
+    totalCorrect: correctAnswers,
+    totalQuestions,
+    percentage,
+    estimatedIQ
+  };
+};
 
-<p><strong>Áreas de Evaluación:</strong></p>
-<ul>
-  <li><strong>Integridad:</strong> Honestidad y coherencia entre valores y acciones</li>
-  <li><strong>Transparencia:</strong> Apertura en la comunicación y toma de decisiones</li>
-  <li><strong>Responsabilidad:</strong> Compromiso con las consecuencias de las decisiones</li>
-  <li><strong>Justicia:</strong> Equidad en el trato hacia todos los involucrados</li>
-  <li><strong>Respeto:</strong> Consideración por los derechos y dignidad de otros</li>
-</ul>
-
-<p><strong>Instrucciones:</strong> Para cada escenario, responda las tres preguntas con honestidad y detalle. No hay respuestas correctas o incorrectas; buscamos entender su proceso de razonamiento ético y los valores que guían sus decisiones.</p>
-
-<p><em>Tiempo estimado: 20-25 minutos</em></p>
-`;
+// Función para analizar respuestas éticas
+export const analyzeEthicalResponses = (answers: Record<string, any>): {
+  integrityIndex: number;
+  behaviorPatterns: string[];
+  riskFactors: string[];
+} => {
+  // Esta función analizaría las respuestas textuales de los dilemas éticos
+  // Por ahora retorna valores por defecto
+  return {
+    integrityIndex: 85,
+    behaviorPatterns: ['Alta Integridad', 'Pensamiento Sistémico', 'Orientación a Soluciones'],
+    riskFactors: ['Tendencia al Perfeccionismo', 'Posible Evitación de Conflictos']
+  };
+};

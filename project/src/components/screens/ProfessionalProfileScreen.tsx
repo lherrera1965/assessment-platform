@@ -4,9 +4,7 @@ import { Button } from '../Button';
 import { ConfirmationModal } from '../ConfirmationModal';
 
 interface ProfessionalProfileScreenProps {
-  data: UserData;
-  setData: React.Dispatch<React.SetStateAction<UserData>>;
-  onNext: () => void;
+  onNext: (data: Partial<UserData>) => void;
   onBack: () => void;
 }
 
@@ -18,7 +16,13 @@ const TextareaField: React.FC<React.TextareaHTMLAttributes<HTMLTextAreaElement> 
     </div>
 );
 
-const ProfessionalProfileScreen: React.FC<ProfessionalProfileScreenProps> = ({ data, setData, onNext, onBack }) => {
+const ProfessionalProfileScreen: React.FC<ProfessionalProfileScreenProps> = ({ onNext, onBack }) => {
+    const [data, setData] = useState({
+        strengths: '',
+        opportunities: '',
+        achievements: '',
+        goals: ''
+    });
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
     
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -31,13 +35,13 @@ const ProfessionalProfileScreen: React.FC<ProfessionalProfileScreenProps> = ({ d
         if (hasEmptyFields) {
             setIsConfirmationOpen(true);
         } else {
-            onNext();
+            onNext(data);
         }
     };
 
     const handleConfirmContinue = () => {
         setIsConfirmationOpen(false);
-        onNext();
+        onNext(data);
     };
     
     return (

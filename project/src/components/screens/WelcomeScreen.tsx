@@ -1,12 +1,21 @@
 
 import React from 'react';
 import { Button } from '../Button';
+import { Settings } from 'lucide-react';
 
 interface WelcomeScreenProps {
   onStart: () => void;
+  onAdminAccess?: () => void;
+  isAdmin?: boolean;
+  onAdminPanelOpen?: () => void;
 }
 
-const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onStart }) => {
+const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ 
+  onStart, 
+  onAdminAccess, 
+  isAdmin = false,
+  onAdminPanelOpen 
+}) => {
   return (
     <div className="text-center">
       <h2 className="text-3xl font-bold text-slate-800 mb-4">
@@ -44,6 +53,37 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onStart }) => {
       <Button onClick={onStart} size="large">
         Entendido, Comenzar Evaluación
       </Button>
+
+      {/* Botón de admin si está logueado */}
+      {isAdmin && onAdminPanelOpen && (
+        <div className="mt-6">
+          <Button 
+            onClick={onAdminPanelOpen}
+            variant="secondary"
+            className="flex items-center space-x-2"
+          >
+            <Settings className="w-4 h-4" />
+            <span>Panel de Administración</span>
+          </Button>
+        </div>
+      )}
+
+      {/* Footer con powered by y acceso admin */}
+      <div className="mt-16 pt-8 border-t border-slate-200">
+        <div className="flex flex-col items-center space-y-4">
+          <p className="text-sm text-slate-500">
+            Powered by <span className="font-semibold text-slate-700">BoadMate.net</span>
+          </p>
+          {!isAdmin && onAdminAccess && (
+            <button
+              onClick={onAdminAccess}
+              className="text-xs text-slate-400 hover:text-slate-600 transition-colors"
+            >
+              Acceso Administrador
+            </button>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

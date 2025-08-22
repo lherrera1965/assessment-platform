@@ -39,6 +39,18 @@ export interface AssessmentData {
   ethicalResults: EthicalResults;
   completedAt: string | null;
   createdAt: string;
+  startTime?: string;
+  endTime?: string;
+  totalDuration?: number; // en minutos
+  sectionTimes?: {
+    personalData?: number;
+    professionalProfile?: number;
+    situationalTest?: number;
+    hoganTest?: number;
+    discTest?: number;
+    cognitiveTest?: number;
+    ethicalDilemmas?: number;
+  };
 }
 
 export interface UserData {
