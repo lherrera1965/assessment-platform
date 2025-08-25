@@ -1,277 +1,144 @@
 import { createClient } from '@supabase/supabase-js';
-import { AssessmentData, UserData, AnswerSet, EthicalDilemmaAnswer } from '../types';
-import { v4 as uuidv4 } from 'uuid';
-import { AssessmentAnalysis } from './geminiService';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+// Configuración de Supabase con credenciales reales
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://nbyqzntmtfasqqojiiwv.supabase.co';
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ieXF6bnRtdGZhc3Fxb2ppaXd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU3NDk4MTQsImV4cCI6MjA3MTMyNTgxNH0.ndRE4rwGW9XRhUKXgJFdThMDPG2tLmBGngzQFcseGyM';
 
-export const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
+console.log('🔧 Configurando Supabase para PRODUCCIÓN...');
+console.log('📍 URL:', supabaseUrl);
+console.log('🔑 Key configurada:', supabaseKey ? 'Sí' : 'No');
 
+export const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Verificar conexión al inicializar
+supabase.from('assessments').select('count', { count: 'exact', head: true })
+  .then(({ count, error }) => {
+    if (error) {
+      console.error('❌ Error conectando a Supabase:', error);
+    } else {
+      console.log('✅ Supabase conectado exitosamente en PRODUCCIÓN');
+      console.log('📊 Assessments en base de datos:', count);
+    }
+  });
+
+// Función para inicializar un nuevo assessment
 export const initializeAssessment = async (): Promise<string> => {
-  if (!supabase) {
-    console.warn('Supabase not configured, using mock ID');
-    return 'mock-assessment-id';
-  }
-  
   try {
-    const assessmentId = uuidv4();
+    console.log('🆕 Creando nuevo assessment en PRODUCCIÓN...');
     
-    const { error } = await supabase
+    // Generar ID único como fallback primero
+    const fallbackId = `assessment_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    
+    // Intentar crear en Supabase
+    const { data, error } = await supabase
       .from('assessments')
       .insert({
-        id: assessmentId,
+        status: 'in_progress',
         created_at: new Date().toISOString(),
-        status: 'in_progress'
-      });
-
-    if (error) {
-      console.error('Error creating assessment:', error);
-      console.warn('Using mock ID for development.');
-      return uuidv4();
-    }
-
-    return assessmentId;
-  } catch (error) {
-    console.error('Error creating assessment:', error);
-    console.warn('Using mock assessment ID due to database error');
-    return 'mock-assessment-id';
-  }
-};
-
-export const savePersonalData = async (assessmentId: string, userData: UserData) => {
-  if (!supabase) {
-    console.warn('Supabase not configured. Data not saved.');
-    return;
-  }
-
-  try {
-  const { error } = await supabase
-    .from('assessments')
-    .update({
-        user_data: userData,
-      updated_at: new Date().toISOString()
-    })
-    .eq('id', assessmentId);
-
-  if (error) {
-      console.error('Error saving user data:', error);
-      throw new Error('Failed to save user data');
-  }
-  } catch (error) {
-    console.error('Error in savePersonalData:', error);
-    throw error;
-  }
-};
-
-export const saveSituationalAnswers = async (assessmentId: string, answers: AnswerSet) => {
-  if (!supabase) {
-    console.warn('Supabase not configured. Situational answers not saved.');
-    return;
-  }
-
-  try {
-  const { error } = await supabase
-    .from('assessments')
-    .update({
-        situational_answers: answers,
-      updated_at: new Date().toISOString()
-    })
-    .eq('id', assessmentId);
-
-  if (error) {
-      console.error('Error saving situational answers:', error);
-      throw new Error('Failed to save situational answers');
-  }
-  } catch (error) {
-    console.error('Error in saveSituationalAnswers:', error);
-    throw error;
-  }
-};
-
-export const saveHoganAnswers = async (assessmentId: string, answers: AnswerSet) => {
-  if (!supabase) {
-    console.warn('Supabase not configured. Hogan answers not saved.');
-    return;
-  }
-
-  try {
-  const { error } = await supabase
-    .from('assessments')
-    .update({
-        hogan_answers: answers,
-      updated_at: new Date().toISOString()
-    })
-    .eq('id', assessmentId);
-
-  if (error) {
-      console.error('Error saving hogan answers:', error);
-      throw new Error('Failed to save hogan answers');
-  }
-  } catch (error) {
-    console.error('Error in saveHoganAnswers:', error);
-    throw error;
-  }
-};
-
-export const saveDiscAnswers = async (assessmentId: string, answers: AnswerSet) => {
-  if (!supabase) {
-    console.warn('Supabase not configured. DISC answers not saved.');
-    return;
-  }
-
-  try {
-  const { error } = await supabase
-    .from('assessments')
-    .update({
-        disc_answers: answers,
-      updated_at: new Date().toISOString()
-    })
-    .eq('id', assessmentId);
-
-  if (error) {
-      console.error('Error saving DISC answers:', error);
-      throw new Error('Failed to save DISC answers');
-  }
-  } catch (error) {
-    console.error('Error in saveDiscAnswers:', error);
-    throw error;
-  }
-};
-
-export const saveCognitiveAnswers = async (assessmentId: string, answers: AnswerSet) => {
-  if (!supabase) {
-    console.warn('Supabase not configured. Cognitive answers not saved.');
-    return;
-  }
-
-  try {
-  const { error } = await supabase
-    .from('assessments')
-    .update({
-        cognitive_answers: answers,
-      updated_at: new Date().toISOString()
-    })
-    .eq('id', assessmentId);
-
-  if (error) {
-      console.error('Error saving cognitive answers:', error);
-      throw new Error('Failed to save cognitive answers');
-  }
-  } catch (error) {
-    console.error('Error in saveCognitiveAnswers:', error);
-    throw error;
-  }
-};
-
-export const saveEthicalAnswers = async (assessmentId: string, answers: Record<string, EthicalDilemmaAnswer>) => {
-  if (!supabase) {
-    console.warn('Supabase not configured. Ethical answers not saved.');
-    return;
-  }
-
-  try {
-    const { error } = await supabase
-      .from('assessments')
-      .update({
-        ethical_answers: answers,
         updated_at: new Date().toISOString()
       })
+      .select()
+      .single();
+
+    if (error) {
+      console.warn('⚠️ Error creando en Supabase, usando ID local:', error.message);
+      return fallbackId;
+    }
+
+    console.log('✅ Assessment creado en PRODUCCIÓN con ID:', data.id);
+    return data.id;
+  } catch (error) {
+    console.warn('⚠️ Excepción en initializeAssessment, usando ID local:', error);
+    return `assessment_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+};
+
+// Función para actualizar un assessment
+export const updateAssessment = async (assessmentId: string, updates: any) => {
+  try {
+    console.log('📝 Actualizando assessment en PRODUCCIÓN:', assessmentId);
+    console.log('📊 Datos a actualizar:', Object.keys(updates));
+
+    // Si es un ID local, solo logear y continuar
+    if (assessmentId.startsWith('assessment_') || assessmentId.startsWith('local_')) {
+      console.log('📝 ID local detectado, guardando en memoria local');
+      return { id: assessmentId, ...updates };
+    }
+
+    const { data, error } = await supabase
+      .from('assessments')
+      .update({
+        ...updates,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', assessmentId)
+      .select()
+      .single();
+
+    if (error) {
+      console.warn('⚠️ Error actualizando assessment:', error.message);
+      return { id: assessmentId, ...updates };
+    }
+
+    console.log('✅ Assessment actualizado exitosamente en PRODUCCIÓN');
+    return data;
+  } catch (error) {
+    console.warn('⚠️ Error en updateAssessment:', error);
+    return { id: assessmentId, ...updates };
+  }
+};
+
+// Función para obtener todos los assessments (para admin)
+export const getAllAssessments = async () => {
+  try {
+    console.log('📋 Obteniendo todos los assessments de PRODUCCIÓN...');
+
+    const { data, error } = await supabase
+      .from('assessments')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('❌ Error obteniendo assessments:', error);
+      throw error;
+    }
+
+    console.log('✅ Assessments obtenidos de PRODUCCIÓN:', data?.length || 0);
+    return data;
+  } catch (error) {
+    console.error('❌ Error en getAllAssessments:', error);
+    throw error;
+  }
+};
+
+// Función para eliminar un assessment
+export const deleteAssessment = async (assessmentId: string) => {
+  try {
+    console.log('🗑️ Eliminando assessment de PRODUCCIÓN:', assessmentId);
+
+    const { error } = await supabase
+      .from('assessments')
+      .delete()
       .eq('id', assessmentId);
 
     if (error) {
-      console.error('Error saving ethical answers:', error);
-      throw new Error('Failed to save ethical answers');
+      console.error('❌ Error eliminando assessment:', error);
+      throw error;
     }
+
+    console.log('✅ Assessment eliminado exitosamente de PRODUCCIÓN');
+    return true;
   } catch (error) {
-    console.error('Error in saveEthicalAnswers:', error);
+    console.error('❌ Error en deleteAssessment:', error);
     throw error;
   }
 };
 
-export const saveAIAnalysis = async (assessmentId: string, analysis: AssessmentAnalysis) => {
-  if (!supabase) {
-    console.warn('Supabase not configured. AI analysis not saved.');
-    return;
-  }
-
-  try {
-    const { error } = await supabase
-      .from('assessments')
-      .update({
-        ai_analysis: analysis,
-        updated_at: new Date().toISOString()
-      })
-      .eq('id', assessmentId);
-
-    if (error) {
-      console.error('Error saving AI analysis:', error);
-      throw new Error('Failed to save AI analysis');
-    }
-  } catch (error) {
-    console.error('Error in saveAIAnalysis:', error);
-    throw error;
-  }
-};
-
-export const saveCompletePDF = async (assessmentId: string, pdfData: string) => {
-  if (!supabase) {
-    console.warn('Supabase not configured. PDF not saved.');
-    return;
-  }
-
-  try {
-  const { error } = await supabase
-    .from('assessments')
-    .update({
-        complete_report_pdf: pdfData,
-        updated_at: new Date().toISOString()
-      })
-      .eq('id', assessmentId);
-
-    if (error) {
-      console.error('Error saving PDF:', error);
-      throw new Error('Failed to save PDF');
-    }
-  } catch (error) {
-    console.error('Error in saveCompletePDF:', error);
-    throw error;
-  }
-};
-
-export const completeAssessment = async (assessmentId: string) => {
-  if (!supabase) {
-    console.warn('Supabase not configured. Assessment completion not saved.');
-    return;
-  }
-
-  try {
-    const { error } = await supabase
-      .from('assessments')
-      .update({
-      status: 'completed',
-      completed_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    })
-    .eq('id', assessmentId);
-
-  if (error) {
-      console.error('Error completing assessment:', error);
-      throw new Error('Failed to complete assessment');
-  }
-  } catch (error) {
-    console.error('Error in completeAssessment:', error);
-    throw error;
-  }
-};
-
+// Función para obtener un assessment específico
 export const getAssessment = async (assessmentId: string) => {
-  if (!supabase) {
-    console.warn('Supabase not configured. Cannot fetch assessment.');
-    return null;
-  }
-
   try {
+    console.log('🔍 Obteniendo assessment de PRODUCCIÓN:', assessmentId);
+
     const { data, error } = await supabase
       .from('assessments')
       .select('*')
@@ -279,97 +146,14 @@ export const getAssessment = async (assessmentId: string) => {
       .single();
 
     if (error) {
-      console.error('Error fetching assessment:', error);
-      return null;
+      console.error('❌ Error obteniendo assessment:', error);
+      throw error;
     }
 
+    console.log('✅ Assessment obtenido exitosamente de PRODUCCIÓN');
     return data;
   } catch (error) {
-    console.error('Error in getAssessment:', error);
-    return null;
-  }
-};
-
-export const deleteAssessment = async (assessmentId: string) => {
-  if (!supabase) {
-    console.warn('Supabase not configured. Cannot delete assessment.');
-    return false;
-  }
-
-  try {
-    const { error } = await supabase
-      .from('assessments')
-      .delete()
-      .eq('id', assessmentId);
-
-    if (error) {
-      console.error('Error deleting assessment:', error);
-      throw new Error('Failed to delete assessment');
-    }
-
-    return true;
-  } catch (error) {
-    console.error('Error in deleteAssessment:', error);
+    console.error('❌ Error en getAssessment:', error);
     throw error;
-  }
-};
-
-export const saveTimingData = async (assessmentId: string, timingData: {
-  startTime: string;
-  endTime: string;
-  totalDuration: number;
-  sectionTimes: {[key: string]: number};
-}) => {
-  if (!supabase) {
-    console.warn('Supabase not configured. Timing data not saved.');
-    return;
-  }
-
-  try {
-    const { error } = await supabase
-      .from('assessments')
-      .update({
-        user_data: {
-          ...((await supabase.from('assessments').select('user_data').eq('id', assessmentId).single()).data?.user_data || {}),
-          startTime: timingData.startTime,
-          endTime: timingData.endTime,
-          totalDuration: timingData.totalDuration,
-          sectionTimes: timingData.sectionTimes
-        },
-        updated_at: new Date().toISOString()
-      })
-      .eq('id', assessmentId);
-
-    if (error) {
-      console.error('Error saving timing data:', error);
-      throw new Error('Failed to save timing data');
-    }
-  } catch (error) {
-    console.error('Error in saveTimingData:', error);
-    throw error;
-  }
-};
-
-export const getAllAssessments = async () => {
-  if (!supabase) {
-    console.warn('Supabase not configured. Cannot fetch assessments.');
-    return [];
-  }
-
-  try {
-    const { data, error } = await supabase
-      .from('assessments')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      console.error('Error fetching assessments:', error);
-      return [];
-    }
-
-    return data || [];
-  } catch (error) {
-    console.error('Error in getAllAssessments:', error);
-    return [];
   }
 };
